@@ -1,4 +1,6 @@
-﻿namespace ETool.Core.Util
+﻿using System;
+
+namespace ETool.Core.Util
 {
     /// <summary>
     /// 字符串工具类
@@ -81,6 +83,39 @@
             }
 
             return new string(chars);
+        }
+
+        /// <summary>
+        /// 将字符串指定区间的字符替换为目标字符
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="startIndex">替换起始索引</param>
+        /// <param name="count">替换字符数量</param>
+        /// <param name="targetChar">用于替换的目标字符</param>
+        /// <returns>替换后的新字符串</returns>
+        public static string ReplaceRangeWithChar(string sourceString, int startIndex, int count, char targetChar)
+        {
+            if (IsNull(sourceString) || IsEmpty(sourceString))
+            {
+                return "";
+            }
+
+            int length = sourceString.Length;
+            startIndex = Math.Max(startIndex, 0);
+            count = Math.Min(Math.Max(count, 0), length - startIndex); // 确保 count 非负且不超过剩余长度
+
+            if (startIndex >= length || count == 0)
+            {
+                return sourceString;
+            }
+
+            char[] resultChars = sourceString.ToCharArray();
+            for (int i = startIndex; i < startIndex + count; i++)
+            {
+                resultChars[i] = targetChar;
+            }
+
+            return new string(resultChars);
         }
     }
 }
