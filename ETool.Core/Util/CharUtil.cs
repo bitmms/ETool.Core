@@ -24,5 +24,15 @@
         {
             return c >= 'A' && c <= 'Z';
         }
+
+        /// <summary>
+        /// 判断入参 <c>c</c> 是否为小写英文字符（a-z）
+        /// </summary>
+        /// <param name="c">待判断的字符</param>
+        /// <returns>若 <c>c</c> 为小写英文字符返回 <c>true</c>，否则返回 <c>false</c></returns>
+        public static bool IsLowerLetter(char c)
+        {
+            return c >= 'a' && c <= 'z';
+        }
     }
 }
