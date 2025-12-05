@@ -28,6 +28,16 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 判断入参 <c>s</c> 是否全为空白字符
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <returns>若 <c>s</c> 全为空白字符返回 <c>true</c>，否则返回 <c>false</c></returns>
+        public static bool IsAllWhiteSpace(string s)
+        {
+            return !IsNull(s) && !IsEmpty(s) && s.Trim().Length == 0;
+        }
+
+        /// <summary>
         /// 将字符串中的小写英文字符转大写
         /// </summary>
         /// <param name="str">待转换的字符串</param>
