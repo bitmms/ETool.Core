@@ -54,5 +54,15 @@
         {
             return IsLowerLetter(c) ? (char)(c - 32) : c;
         }
+
+        /// <summary>
+        /// 将大写英文字符转换为对应的小写英文字符
+        /// </summary>
+        /// <param name="c">待转换的字符</param>
+        /// <returns>若 <c>c</c> 为大写英文字符返回对应的小写英文字符，否则返回原字符</returns>
+        public static char ToLowerLetter(char c)
+        {
+            return IsUpperLetter(c) ? (char)(c + 32) : c;
+        }
     }
 }
