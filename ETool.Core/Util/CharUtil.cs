@@ -34,5 +34,15 @@
         {
             return c >= 'a' && c <= 'z';
         }
+
+        /// <summary>
+        /// 判断入参 <c>c</c> 是否为英文字符（a-z，A-Z）
+        /// </summary>
+        /// <param name="c">待判断的字符</param>
+        /// <returns>若 <c>c</c> 为英文字符返回 <c>true</c>，否则返回 <c>false</c></returns>
+        public static bool IsLetter(char c)
+        {
+            return IsUpperLetter(c) || IsLowerLetter(c);
+        }
     }
 }
