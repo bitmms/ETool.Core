@@ -14,5 +14,15 @@
         {
             return c >= '0' && c <= '9';
         }
+
+        /// <summary>
+        /// 判断入参 <c>c</c> 是否为大写英文字符（A-Z）
+        /// </summary>
+        /// <param name="c">待判断的字符</param>
+        /// <returns>若 <c>c</c> 为大写英文字符返回 <c>true</c>，否则返回 <c>false</c></returns>
+        public static bool IsUpperLetter(char c)
+        {
+            return c >= 'A' && c <= 'Z';
+        }
     }
 }
