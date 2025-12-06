@@ -64,5 +64,25 @@ namespace ETool.Core.Util
             int idx2 = RandomUtil.GetRandomInt(0, lastUsernameList.Count - 1);
             return $"{firstUsernameList[idx1]}的{lastUsernameList[idx2]}";
         }
+
+        /// <summary>
+        /// 批量生成随机的中文用户名
+        /// </summary>
+        /// <returns>随机生成的中文用户名列表</returns>
+        public static List<string> GetRandomChineseUsernameList(int count)
+        {
+            if (count <= 0)
+            {
+                return new List<string>();
+            }
+
+            List<string> list = new List<string>(count);
+            for (int i = 0; i < count; i++)
+            {
+                list.Add(GetRandomChineseUsername());
+            }
+
+            return list;
+        }
     }
 }
