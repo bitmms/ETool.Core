@@ -28,5 +28,14 @@ namespace ETool.Core.Util
 
             return RandomThreadLocal.Value.Next(minValue, maxValue + 1);
         }
+
+        /// <summary>
+        /// 生成随机布尔值
+        /// </summary>
+        /// <returns>随机布尔值</returns>
+        public static bool GetRandomBoolean()
+        {
+            return GetRandomInt(0, 1) == 0;
+        }
     }
 }
