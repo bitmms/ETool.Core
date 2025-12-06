@@ -47,5 +47,41 @@ namespace ETool.Core.Util
             char[] defaultChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
             return defaultChars[GetRandomInt(0, 9)];
         }
+
+        /// <summary>
+        /// 生成指定长度范围的随机字符串
+        /// </summary>
+        /// <param name="minLength">字符串的最小长度（包含）</param>
+        /// <param name="maxLength">字符串的最大长度（包含）</param>
+        /// <returns>长度介于 <c>minValue</c> 和 <c>maxValue</c> 之间的随机字符串</returns>
+        public static string GetRandomString(int minLength, int maxLength)
+        {
+            // 负数自动修正为 0
+            minLength = Math.Max(minLength, 0);
+            maxLength = Math.Max(maxLength, 0);
+
+            // 自动修正参数顺序
+            if (minLength > maxLength)
+            {
+                (minLength, maxLength) = (maxLength, minLength);
+            }
+
+            // 均为 0 时返回空字符串
+            if (maxLength == 0 && minLength == 0)
+            {
+                return "";
+            }
+
+            // 生成随机字符串
+            const string defaultCharList = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`~!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
+            int len = RandomThreadLocal.Value.Next(minLength, maxLength + 1);
+            char[] resultChars = new char[len];
+            for (int i = 0; i < len; i++)
+            {
+                resultChars[i] = defaultCharList[RandomThreadLocal.Value.Next(0, defaultCharList.Length)];
+            }
+
+            return new string(resultChars);
+        }
     }
 }
