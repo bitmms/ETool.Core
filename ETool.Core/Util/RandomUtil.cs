@@ -49,6 +49,35 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 生成指定数值区间的随机数字字符
+        /// </summary>
+        /// <param name="minValue">随机数字字符对应的数值最小值（包含）</param>
+        /// <param name="maxValue">随机数字字符对应的数值最大值（包含）</param>
+        /// <returns>介于 <c>minValue</c> 和 <c>maxValue</c> 之间的随机数字字符</returns>
+        public static char GetRandomDigitChar(int minValue, int maxValue)
+        {
+            // 负数自动修正为 0
+            minValue = Math.Max(minValue, 0);
+            maxValue = Math.Max(maxValue, 0);
+
+            // 自动修正参数顺序
+            if (minValue > maxValue)
+            {
+                (minValue, maxValue) = (maxValue, minValue);
+            }
+
+            char[] defaultChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+            // 超出有效范围时：返回 0-9 的随机字符
+            if (minValue > 9)
+            {
+                return defaultChars[GetRandomInt(0, 9)];
+            }
+
+            return defaultChars[GetRandomInt(minValue, maxValue)];
+        }
+
+        /// <summary>
         /// 生成指定长度范围的随机字符串
         /// </summary>
         /// <param name="minLength">字符串的最小长度（包含）</param>
