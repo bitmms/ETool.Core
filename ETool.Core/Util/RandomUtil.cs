@@ -83,5 +83,46 @@ namespace ETool.Core.Util
 
             return new string(resultChars);
         }
+
+        /// <summary>
+        /// 生成指定格式的随机 GUID 字符串
+        /// </summary>
+        /// <param name="format">规则字符串</param>
+        /// <returns>符合格式规则的 GUID 字符串（异常场景返回全 0 的 GUID 字符串）</returns>
+        public static string GetGuidString(string format = "D")
+        {
+            // 处理 null：返回全 0 GUID 字符串
+            if (format == null)
+            {
+                return "00000000-0000-0000-0000-000000000000";
+            }
+
+            // 处理空字符串：返回 D 格式 UUID 字符串
+            if (format.Length == 0)
+            {
+                return Guid.NewGuid().ToString("D");
+            }
+
+            // 小写 -> 大写
+            format = StrUtil.ToUpperLetter(format);
+
+            // 合法 GUID 格式符集合
+            const string roleString = "DNBPX";
+
+            // 双字符规则：相同且为 DNBPX 中任意一个 → 返回大写 GUID 字符串
+            if (format.Length == 2 && format[0] == format[1] && roleString.Contains(format[0].ToString()))
+            {
+                return StrUtil.ToUpperLetter(Guid.NewGuid().ToString(format[0].ToString()));
+            }
+
+            // 单字符规则：为 DNBPX 中任意一个  → 返回小写 GUID 字符串
+            if (format.Length == 1 && roleString.Contains(format))
+            {
+                return Guid.NewGuid().ToString(format);
+            }
+
+            // 其他情况：返回全 0 GUID 字符串
+            return "00000000-0000-0000-0000-000000000000";
+        }
     }
 }
