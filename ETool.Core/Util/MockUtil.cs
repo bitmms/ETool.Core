@@ -112,5 +112,25 @@ namespace ETool.Core.Util
             string last = RandomUtil.GetRandomBoolean() ? "" : lastNameList[RandomUtil.GetRandomInt(0, lastNameList.Count - 1)];
             return first + middle + last;
         }
+
+        /// <summary>
+        /// 批量生成随机的中文姓名
+        /// </summary>
+        /// <returns>随机生成的中文姓名列表</returns>
+        public static List<string> GetRandomChineseNameList(int count)
+        {
+            if (count <= 0)
+            {
+                return new List<string>();
+            }
+
+            List<string> list = new List<string>(count);
+            for (int i = 0; i < count; i++)
+            {
+                list.Add(GetRandomChineseName());
+            }
+
+            return list;
+        }
     }
 }
