@@ -37,5 +37,15 @@ namespace ETool.Core.Util
         {
             return GetRandomInt(0, 1) == 0;
         }
+
+        /// <summary>
+        /// 生成随机数字字符
+        /// </summary>
+        /// <returns>随机数字字符</returns>
+        public static char GetRandomDigitChar()
+        {
+            char[] defaultChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+            return defaultChars[GetRandomInt(0, 9)];
+        }
     }
 }
