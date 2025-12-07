@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace ETool.Core.Util
 {
@@ -126,6 +128,50 @@ namespace ETool.Core.Util
             }
 
             return new string(resultChars);
+        }
+
+        /// <summary>
+        /// 字符串序列转字符串
+        /// </summary>
+        /// <param name="stringItems">待拼接的字符串序列</param>
+        /// <param name="separator">分隔符</param>
+        /// <param name="skipNull">是否跳过 null 元素</param>
+        /// <param name="nullReplacement">当 null 元素参与字符串拼接时，null 元素的替换字符串</param>
+        /// <returns>拼接后的字符串</returns>
+        public static string JoinStrings(IEnumerable<string> stringItems, char separator, bool skipNull = true, string nullReplacement = "null")
+        {
+            if (stringItems == null)
+            {
+                return "";
+            }
+
+            if (!skipNull && IsNull(nullReplacement))
+            {
+                nullReplacement = "null";
+            }
+
+            bool first = true;
+            StringBuilder sb = new StringBuilder();
+            foreach (string item in stringItems)
+            {
+                if (IsNull(item) && skipNull)
+                {
+                    continue;
+                }
+
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    sb.Append(separator);
+                }
+
+                sb.Append(IsNull(item) ? nullReplacement : item);
+            }
+
+            return sb.ToString();
         }
     }
 }
