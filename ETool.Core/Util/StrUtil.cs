@@ -220,5 +220,47 @@ namespace ETool.Core.Util
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// 字符重复指定次数
+        /// </summary>
+        /// <param name="c">待重复的字符</param>
+        /// <param name="count">重复的次数</param>
+        /// <param name="separator">分隔符</param>
+        /// <returns>拼接后的字符串</returns>
+        public static string RepeatChar(char c, int count, string separator = "")
+        {
+            if (count <= 0)
+            {
+                return "";
+            }
+
+            if (count == 1)
+            {
+                return $"{c}";
+            }
+
+            if (IsNull(separator) || IsEmpty(separator))
+            {
+                return new string(c, count);
+            }
+
+            // 判断整数溢出
+            long totalLength = 1 + (long)(count - 1) * (separator.Length + 1);
+            if (totalLength > int.MaxValue)
+            {
+                return $"{c}";
+            }
+
+            StringBuilder sb = new StringBuilder((int)totalLength);
+
+            sb.Append(c);
+            for (int i = 1; i < count; i++)
+            {
+                sb.Append(separator).Append(c);
+            }
+
+            return sb.ToString();
+        }
     }
 }
