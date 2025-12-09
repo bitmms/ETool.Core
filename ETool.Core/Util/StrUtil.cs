@@ -370,5 +370,21 @@ namespace ETool.Core.Util
 
             return str.IndexOf(c);
         }
+
+        /// <summary>
+        /// 判断字符串是否包含指定字符
+        /// </summary>
+        /// <param name="str">源字符串</param>
+        /// <param name="c">目标字符</param>
+        /// <returns>包含返回 true，否则返回 false</returns>
+        public static bool ContainsChar(string str, char c)
+        {
+            if (IsNull(str))
+            {
+                return false;
+            }
+
+            return str.IndexOf(c) >= 0;
+        }
     }
 }
