@@ -386,5 +386,26 @@ namespace ETool.Core.Util
 
             return str.IndexOf(c) >= 0;
         }
+
+        /// <summary>
+        /// 判断字符串是否包含指定子串
+        /// </summary>
+        /// <param name="str">源字符串</param>
+        /// <param name="s">目标子串</param>
+        /// <returns>包含返回 true，否则返回 false</returns>
+        public static bool ContainsString(string str, string s)
+        {
+            if (IsNull(str) || IsNull(s))
+            {
+                return false;
+            }
+
+            if (IsEmpty(s))
+            {
+                return true;
+            }
+
+            return str.IndexOf(s, StringComparison.Ordinal) >= 0;
+        }
     }
 }
