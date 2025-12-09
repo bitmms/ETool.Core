@@ -113,5 +113,76 @@
 
             return true;
         }
+
+        /// <summary>
+        /// 校验指定字符串是否符合 IPv4 地址点分十进制表示法的格式规范
+        /// </summary>
+        /// <param name="s">待校验的字符串</param>
+        /// <returns>如果字符串符合 IPv4 地址点分十进制表示法的格式规范返回 true，否则返回 false</returns>
+        public static bool IsValidIpv4(string s)
+        {
+            if (StringUtil.IsNullOrEmpty(s))
+            {
+                return false;
+            }
+
+            // 长度超出合法范围【最短7位(0.0.0.0)，最长15位(255.255.255.255)】
+            int len = s.Length;
+            if (len < 7 || len > 15)
+            {
+                return false;
+            }
+
+            // 字符校验：仅能包含数字 0-9 和小数点
+            for (int i = 0; i < len; i++)
+            {
+                if (!(CharUtil.IsDigit(s[i]) || s[i] == '.'))
+                {
+                    return false;
+                }
+            }
+
+            // 片段必须为 4 段
+            string[] segments = s.Split('.');
+            if (segments.Length != 4)
+            {
+                return false;
+            }
+
+            foreach (string segment in segments)
+            {
+                // 失败：段为空校验
+                if (StringUtil.IsEmpty(segment))
+                {
+                    return false;
+                }
+
+                // 失败：前导零校验
+                int segLen = segment.Length;
+                if (segLen > 1 && segment[0] == '0')
+                {
+                    return false;
+                }
+
+                // 失败：段长度校验
+                if (segLen > 3)
+                {
+                    return false;
+                }
+
+                // 数值范围校验（0-255）
+                int num = 0;
+                foreach (char c in segment)
+                {
+                    num = num * 10 + (c - '0');
+                    if (num > 255)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }
