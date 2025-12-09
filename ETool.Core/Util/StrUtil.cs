@@ -354,5 +354,21 @@ namespace ETool.Core.Util
 
             return -1;
         }
+
+        /// <summary>
+        /// 在字符串中查找指定字符首次出现的索引
+        /// </summary>
+        /// <param name="str">源字符串</param>
+        /// <param name="c">目标字符</param>
+        /// <returns>找到返回索引，否则返回 -1</returns>
+        public static int IndexOf(string str, char c)
+        {
+            if (IsNull(str))
+            {
+                return -1;
+            }
+
+            return str.IndexOf(c);
+        }
     }
 }
