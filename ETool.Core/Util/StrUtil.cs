@@ -372,6 +372,45 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 在字符串指定区间内查找指定子串首次出现的索引
+        /// </summary>
+        /// <param name="str">源字符串</param>
+        /// <param name="s">目标子串</param>
+        /// <param name="start">起始索引（包含）</param>
+        /// <param name="end">结束索引（包含）</param>
+        /// <returns>找到返回索引，否则返回 -1</returns>
+        public static int IndexOf(string str, string s, int start, int end)
+        {
+            if (IsNull(str) || IsNull(s))
+            {
+                return -1;
+            }
+
+            start = Math.Max(start, 0);
+            end = Math.Min(end, str.Length - 1);
+
+            if (start > end)
+            {
+                return -1;
+            }
+
+            // 0 <= start <= end <= len-1
+            if (IsEmpty(s))
+            {
+                return start;
+            }
+
+            int index = str.IndexOf(s, start, StringComparison.Ordinal);
+
+            if (index > end || index + s.Length - 1 > end)
+            {
+                return -1;
+            }
+
+            return index;
+        }
+
+        /// <summary>
         /// 在字符串中查找指定子串首次出现的索引
         /// </summary>
         /// <param name="str">源字符串</param>
