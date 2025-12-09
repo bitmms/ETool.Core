@@ -563,8 +563,9 @@ namespace ETool.Core.Util
         /// <param name="sourceString">源字符串</param>
         /// <param name="suffix">待移除的后缀子串</param>
         /// <param name="ignoreCase">是否忽略大小写（默认不忽略）</param>
+        /// <param name="isBatch">是否批量移除</param>
         /// <returns>移除后缀的字符串</returns>
-        public static string RemoveSuffixSubstring(string sourceString, string suffix, bool ignoreCase = false)
+        public static string RemoveSuffixSubstring(string sourceString, string suffix, bool ignoreCase = false, bool isBatch = false)
         {
             if (IsNull(sourceString) || IsEmpty(sourceString))
             {
@@ -573,6 +574,23 @@ namespace ETool.Core.Util
 
             if (IsNull(suffix) || IsEmpty(suffix))
             {
+                return sourceString;
+            }
+
+            if (isBatch)
+            {
+                while (true)
+                {
+                    if (EndsWithSubstring(sourceString, suffix, ignoreCase))
+                    {
+                        sourceString = sourceString.Substring(0, sourceString.Length - suffix.Length);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
                 return sourceString;
             }
 
