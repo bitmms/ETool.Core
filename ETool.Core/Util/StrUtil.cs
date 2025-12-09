@@ -378,8 +378,9 @@ namespace ETool.Core.Util
         /// <param name="s">目标子串</param>
         /// <param name="start">起始索引（包含）</param>
         /// <param name="end">结束索引（包含）</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
         /// <returns>找到返回索引，否则返回 -1</returns>
-        public static int IndexOf(string str, string s, int start, int end)
+        public static int IndexOf(string str, string s, int start, int end, bool ignoreCase = false)
         {
             if (IsNull(str) || IsNull(s))
             {
@@ -400,7 +401,7 @@ namespace ETool.Core.Util
                 return start;
             }
 
-            int index = str.IndexOf(s, start, StringComparison.Ordinal);
+            int index = str.IndexOf(s, start, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
 
             if (index > end || index + s.Length - 1 > end)
             {
@@ -415,8 +416,9 @@ namespace ETool.Core.Util
         /// </summary>
         /// <param name="str">源字符串</param>
         /// <param name="s">目标子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
         /// <returns>找到返回索引，否则返回 -1</returns>
-        public static int IndexOf(string str, string s)
+        public static int IndexOf(string str, string s, bool ignoreCase = false)
         {
             if (IsNull(str) || IsNull(s))
             {
@@ -428,7 +430,7 @@ namespace ETool.Core.Util
                 return 0;
             }
 
-            return str.IndexOf(s, StringComparison.Ordinal);
+            return str.IndexOf(s, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
         }
 
         /// <summary>
