@@ -34,5 +34,14 @@ namespace ETool.Core.Util
 
             return GetRandom().Next(minValue, maxValue + 1);
         }
+
+        /// <summary>
+        /// 获取一个随机的布尔值
+        /// </summary>
+        /// <returns>随机的布尔值</returns>
+        public static bool GetRandomBool()
+        {
+            return GetRandomInt(0, 1) == 0;
+        }
     }
 }
