@@ -310,5 +310,15 @@ namespace ETool.Core.Util
 
             return new string(resultChars, 0, idx);
         }
+
+        /// <summary>
+        /// 移除字符串中全部的换行符
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <returns>移除全部换行符后的字符串</returns>
+        public static string RemoveAllNextLineChar(string str)
+        {
+            return RemoveAllChar(str, '\r', '\n');
+        }
     }
 }
