@@ -76,5 +76,42 @@
 
             return true;
         }
+
+        /// <summary>
+        /// 校验指定字符串是否符合 QQ 号码的格式规范
+        /// </summary>
+        /// <param name="s">待校验的字符串</param>
+        /// <returns>如果字符串符合 QQ 号码的格式规范返回 true，否则返回 false</returns>
+        public static bool IsValidQqNumber(string s)
+        {
+            if (StringUtil.IsNullOrEmpty(s))
+            {
+                return false;
+            }
+
+            // 长度校验：必须是 5-11 位
+            int len = s.Length;
+            if (len < 5 || len > 11)
+            {
+                return false;
+            }
+
+            // 首位校验：必须是 1-9 的数字
+            if (s[0] < '1' || s[0] > '9')
+            {
+                return false;
+            }
+
+            // 除首位的其他字符校验：必须是 0-9 的数字
+            for (int i = 1; i < len; i++)
+            {
+                if (!CharUtil.IsDigit(s[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
