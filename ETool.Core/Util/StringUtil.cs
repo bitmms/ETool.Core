@@ -5,5 +5,14 @@
     /// </summary>
     public static class StringUtil
     {
+        /// <summary>
+        /// 判断指定字符串是否为 null
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <returns>如果字符串为 null 返回 true，否则返回 false</returns>
+        public static bool IsNull(string s)
+        {
+            return s == null;
+        }
     }
 }
