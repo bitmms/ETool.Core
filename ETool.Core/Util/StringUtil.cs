@@ -54,5 +54,34 @@
         {
             return string.IsNullOrEmpty(s);
         }
+
+        /// <summary>
+        /// 将字符串中的小写英文字符转大写
+        /// </summary>
+        /// <param name="s">待转换的字符串</param>
+        /// <returns>转换后的字符串</returns>
+        public static string ToUpperLetter(string s)
+        {
+            if (IsNullOrEmpty(s))
+            {
+                return "";
+            }
+
+            int len = s.Length;
+            char[] resultChars = new char[len];
+            for (int i = 0; i < len; i++)
+            {
+                if (CharUtil.IsLowerLetter(s[i]))
+                {
+                    resultChars[i] = CharUtil.ToUpperLetter(s[i]);
+                }
+                else
+                {
+                    resultChars[i] = s[i];
+                }
+            }
+
+            return new string(resultChars);
+        }
     }
 }
