@@ -489,5 +489,27 @@ namespace ETool.Core.Util
 
             return sourceString.StartsWith(prefix, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
         }
+
+        /// <summary>
+        /// 判断字符串是否以指定子串结束
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="suffix">待检查的后缀子串</param>
+        /// <param name="ignoreCase">是否忽略大小写（默认不忽略）</param>
+        /// <returns>字符串以指定子串结束返回 true，否则返回 false</returns>
+        public static bool EndsWithSubstring(string sourceString, string suffix, bool ignoreCase = false)
+        {
+            if (IsNull(sourceString) || IsNull(suffix))
+            {
+                return false;
+            }
+
+            if (IsEmpty(suffix))
+            {
+                return true;
+            }
+
+            return sourceString.EndsWith(suffix, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+        }
     }
 }
