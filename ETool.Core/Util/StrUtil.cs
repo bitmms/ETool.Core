@@ -372,6 +372,27 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 在字符串中查找指定子串首次出现的索引
+        /// </summary>
+        /// <param name="str">源字符串</param>
+        /// <param name="s">目标子串</param>
+        /// <returns>找到返回索引，否则返回 -1</returns>
+        public static int IndexOf(string str, string s)
+        {
+            if (IsNull(str) || IsNull(s))
+            {
+                return -1;
+            }
+
+            if (IsEmpty(s))
+            {
+                return 0;
+            }
+
+            return str.IndexOf(s, StringComparison.Ordinal);
+        }
+
+        /// <summary>
         /// 判断字符串是否包含指定字符
         /// </summary>
         /// <param name="str">源字符串</param>
