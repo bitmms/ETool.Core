@@ -44,5 +44,15 @@
         {
             return c >= 'a' && c <= 'z';
         }
+
+        /// <summary>
+        /// 将小写英文字符转换成对应的大写英文字符
+        /// </summary>
+        /// <param name="c">待转换的字符</param>
+        /// <returns>转换后的字符</returns>
+        public static char ToUpperLetter(char c)
+        {
+            return IsLowerLetter(c) ? (char)(c - 32) : c;
+        }
     }
 }
