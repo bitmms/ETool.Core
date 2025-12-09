@@ -320,5 +320,39 @@ namespace ETool.Core.Util
         {
             return RemoveAllChar(str, '\r', '\n');
         }
+
+        /// <summary>
+        /// 在字符串指定区间内查找指定字符首次出现的索引
+        /// </summary>
+        /// <param name="str">源字符串</param>
+        /// <param name="c">目标字符</param>
+        /// <param name="start">起始索引（包含）</param>
+        /// <param name="end">结束索引（包含）</param>
+        /// <returns>找到返回索引，否则返回 -1</returns>
+        public static int IndexOf(string str, char c, int start, int end)
+        {
+            if (IsNull(str) || IsEmpty(str))
+            {
+                return -1;
+            }
+
+            start = Math.Max(start, 0);
+            end = Math.Min(end, str.Length - 1);
+
+            if (start > end)
+            {
+                return -1;
+            }
+
+            for (int i = start; i <= end; i++)
+            {
+                if (str[i] == c)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
     }
 }
