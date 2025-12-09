@@ -69,5 +69,41 @@ namespace ETool.Core.Util
 
             return defaultChars[GetRandomInt(minValue, maxValue)];
         }
+
+        /// <summary>
+        /// 获取一个指定长度范围的随机字符串
+        /// </summary>
+        /// <param name="minLength">字符串的最小长度（包含）</param>
+        /// <param name="maxLength">字符串的最大长度（包含）</param>
+        /// <returns>长度介于 <c>minValue</c> 和 <c>maxValue</c> 之间的随机字符串</returns>
+        public static string GetRandomString(int minLength, int maxLength)
+        {
+            // 负数自动修正为 0
+            minLength = Math.Max(minLength, 0);
+            maxLength = Math.Max(maxLength, 0);
+
+            // 自动修正参数顺序
+            NumberUtil.SwapIfFirstLarger(ref minLength, ref maxLength);
+
+            // 均为 0 时返回空字符串
+            if (maxLength == 0 && minLength == 0)
+            {
+                return "";
+            }
+
+            const string defaultCharList = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`~!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
+
+            // 随机字符串的长度
+            int len = GetRandomInt(minLength, maxLength);
+
+            // 生成随机字符串
+            char[] resultChars = new char[len];
+            for (int i = 0; i < len; i++)
+            {
+                resultChars[i] = defaultCharList[GetRandomInt(0, defaultCharList.Length - 1)];
+            }
+
+            return new string(resultChars);
+        }
     }
 }
