@@ -454,8 +454,9 @@ namespace ETool.Core.Util
         /// </summary>
         /// <param name="str">源字符串</param>
         /// <param name="s">目标子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
         /// <returns>包含返回 true，否则返回 false</returns>
-        public static bool ContainsString(string str, string s)
+        public static bool ContainsString(string str, string s, bool ignoreCase = false)
         {
             if (IsNull(str) || IsNull(s))
             {
@@ -467,7 +468,7 @@ namespace ETool.Core.Util
                 return true;
             }
 
-            return str.IndexOf(s, StringComparison.Ordinal) >= 0;
+            return str.IndexOf(s, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) >= 0;
         }
 
         /// <summary>
