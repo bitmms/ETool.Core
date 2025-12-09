@@ -467,5 +467,27 @@ namespace ETool.Core.Util
 
             return str.IndexOf(s, StringComparison.Ordinal) >= 0;
         }
+
+        /// <summary>
+        /// 判断字符串是否以指定子串开头
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="prefix">待检查的前缀子串</param>
+        /// <param name="ignoreCase">是否忽略大小写（默认不忽略）</param>
+        /// <returns>字符串以指定子串开头返回 true，否则返回 false</returns>
+        public static bool StartsWithSubstring(string sourceString, string prefix, bool ignoreCase = false)
+        {
+            if (IsNull(sourceString) || IsNull(prefix))
+            {
+                return false;
+            }
+
+            if (IsEmpty(prefix))
+            {
+                return true;
+            }
+
+            return sourceString.StartsWith(prefix, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+        }
     }
 }
