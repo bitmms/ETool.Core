@@ -83,5 +83,34 @@
 
             return new string(resultChars);
         }
+
+        /// <summary>
+        /// 将字符串中的大写英文字符转小写
+        /// </summary>
+        /// <param name="s">待转换的字符串</param>
+        /// <returns>转换后的字符串</returns>
+        public static string ToLowerLetter(string s)
+        {
+            if (IsNullOrEmpty(s))
+            {
+                return "";
+            }
+
+            int len = s.Length;
+            char[] chars = new char[len];
+            for (int i = 0; i < len; i++)
+            {
+                if (CharUtil.IsUpperLetter(s[i]))
+                {
+                    chars[i] = CharUtil.ToLowerLetter(s[i]);
+                }
+                else
+                {
+                    chars[i] = s[i];
+                }
+            }
+
+            return new string(chars);
+        }
     }
 }
