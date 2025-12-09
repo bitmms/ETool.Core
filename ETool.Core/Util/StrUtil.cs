@@ -262,5 +262,53 @@ namespace ETool.Core.Util
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// 移除字符串中指定的多个字符
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <param name="chars">字符列表</param>
+        /// <returns>移除字符后的字符串</returns>
+        public static string RemoveAllChar(string str, params char[] chars)
+        {
+            if (IsNull(str) || IsEmpty(str))
+            {
+                return "";
+            }
+
+            if (chars == null || chars.Length == 0)
+            {
+                return str;
+            }
+
+            int idx = 0;
+            int len = str.Length;
+            char[] resultChars = new char[len];
+
+            if (chars.Length > 4)
+            {
+                HashSet<char> charSet = new HashSet<char>(chars);
+
+                for (int i = 0; i < len; i++)
+                {
+                    if (!charSet.Contains(str[i]))
+                    {
+                        resultChars[idx++] = str[i];
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < len; i++)
+                {
+                    if (Array.IndexOf(chars, str[i]) < 0)
+                    {
+                        resultChars[idx++] = str[i];
+                    }
+                }
+            }
+
+            return new string(resultChars, 0, idx);
+        }
     }
 }
