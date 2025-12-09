@@ -21,10 +21,7 @@ namespace ETool.Core.Util
         /// <returns>介于 <c>minValue</c> 和 <c>maxValue</c> 之间的随机整数</returns>
         public static int GetRandomInt(int minValue, int maxValue)
         {
-            if (minValue > maxValue)
-            {
-                (minValue, maxValue) = (maxValue, minValue);
-            }
+            NumberUtil.SwapIfFirstLarger(ref minValue, ref maxValue);
 
             return RandomThreadLocal.Value.Next(minValue, maxValue + 1);
         }
