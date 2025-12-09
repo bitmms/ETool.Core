@@ -45,5 +45,36 @@
 
             return true;
         }
+
+        /// <summary>
+        /// 校验指定字符串是否符合正整数的格式规范
+        /// </summary>
+        /// <param name="s">待校验的字符串</param>
+        /// <returns>如果字符串符合正整数的格式规范返回 true，否则返回 false</returns>
+        public static bool IsValidPositiveNumber(string s)
+        {
+            if (StringUtil.IsNullOrEmpty(s))
+            {
+                return false;
+            }
+
+            // 不允许前导零的存在
+            if (s[0] == '0')
+            {
+                return false;
+            }
+
+            // 逐字符检查是否为数字
+            int len = s.Length;
+            for (int i = 0; i < len; i++)
+            {
+                if (!CharUtil.IsDigit(s[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
