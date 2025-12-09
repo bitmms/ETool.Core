@@ -21,5 +21,18 @@ namespace ETool.Core.Util
         {
             return RandomThreadLocal.Value;
         }
+
+        /// <summary>
+        /// 获取一个指定区间内的随机整数
+        /// </summary>
+        /// <param name="minValue">随机数的最小值（包含）</param>
+        /// <param name="maxValue">随机数的最大值（包含）</param>
+        /// <returns>介于 <c>minValue</c> 和 <c>maxValue</c> 之间的随机整数</returns>
+        public static int GetRandomInt(int minValue, int maxValue)
+        {
+            NumberUtil.SwapIfFirstLarger(ref minValue, ref maxValue);
+
+            return GetRandom().Next(minValue, maxValue + 1);
+        }
     }
 }
