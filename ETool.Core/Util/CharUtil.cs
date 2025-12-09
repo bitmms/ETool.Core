@@ -24,5 +24,15 @@
         {
             return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z';
         }
+
+        /// <summary>
+        /// 判断指定字符是否为大写英文字符
+        /// </summary>
+        /// <param name="c">待判断的字符</param>
+        /// <returns>如果字符为大写英文字符返回 true，否则返回 false</returns>
+        public static bool IsUpperLetter(char c)
+        {
+            return c >= 'A' && c <= 'Z';
+        }
     }
 }
