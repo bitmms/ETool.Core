@@ -518,8 +518,9 @@ namespace ETool.Core.Util
         /// <param name="sourceString">源字符串</param>
         /// <param name="prefix">待移除的前缀子串</param>
         /// <param name="ignoreCase">是否忽略大小写（默认不忽略）</param>
+        /// <param name="isBatch">是否批量移除</param>
         /// <returns>移除前缀的字符串</returns>
-        public static string RemovePrefixSubstring(string sourceString, string prefix, bool ignoreCase = false)
+        public static string RemovePrefixSubstring(string sourceString, string prefix, bool ignoreCase = false, bool isBatch = false)
         {
             if (IsNull(sourceString) || IsEmpty(sourceString))
             {
@@ -528,6 +529,23 @@ namespace ETool.Core.Util
 
             if (IsNull(prefix) || IsEmpty(prefix))
             {
+                return sourceString;
+            }
+
+            if (isBatch)
+            {
+                while (true)
+                {
+                    if (StartsWithSubstring(sourceString, prefix, ignoreCase))
+                    {
+                        sourceString = sourceString.Substring(prefix.Length);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
                 return sourceString;
             }
 
