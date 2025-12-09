@@ -84,10 +84,7 @@ namespace ETool.Core.Util
             maxLength = Math.Max(maxLength, 0);
 
             // 自动修正参数顺序
-            if (minLength > maxLength)
-            {
-                (minLength, maxLength) = (maxLength, minLength);
-            }
+            NumberUtil.SwapIfFirstLarger(ref minLength, ref maxLength);
 
             // 均为 0 时返回空字符串
             if (maxLength == 0 && minLength == 0)
