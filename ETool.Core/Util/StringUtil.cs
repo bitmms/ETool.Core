@@ -361,6 +361,45 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 将字符串指定区间的字符替换为目标字符
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="startIndex">起始索引</param>
+        /// <param name="count">替换字符的数量</param>
+        /// <param name="targetChar">用于替换的目标字符</param>
+        /// <returns>替换后的新字符串</returns>
+        public static string ReplaceRangeWithChar(string sourceString, int startIndex, int count, char targetChar)
+        {
+            if (IsNull(sourceString) || IsEmpty(sourceString))
+            {
+                return "";
+            }
+
+            if (startIndex < 0)
+            {
+                startIndex = 0;
+            }
+
+            if (startIndex >= sourceString.Length || count <= 0)
+            {
+                return sourceString;
+            }
+
+            if (count > sourceString.Length - startIndex)
+            {
+                count = sourceString.Length - startIndex;
+            }
+
+            char[] resultChars = sourceString.ToCharArray();
+            for (int i = startIndex; i <= startIndex + count - 1; i++)
+            {
+                resultChars[i] = targetChar;
+            }
+
+            return new string(resultChars);
+        }
+
+        /// <summary>
         /// 在字符串的指定范围内查找指定字符首次出现的索引
         /// </summary>
         /// <param name="s">源字符串</param>
