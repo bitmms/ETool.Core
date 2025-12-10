@@ -551,5 +551,48 @@ namespace ETool.Core.Util
         {
             return IndexOf(sourceString, targetString, ignoreCase) >= 0;
         }
+
+        /// <summary>
+        /// 判断字符串是否以指定子串开头
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="prefix">待检查的前缀子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>字符串以指定子串开头返回 true，否则返回 false</returns>
+        public static bool StartsWith(string sourceString, string prefix, bool ignoreCase = false)
+        {
+            if (IsNull(sourceString) || IsNull(prefix))
+            {
+                return false;
+            }
+
+            if (IsEmpty(prefix))
+            {
+                return true;
+            }
+
+            if (sourceString.Length < prefix.Length)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < prefix.Length; i++)
+            {
+                char sourceChar = sourceString[i];
+                char targetChar = prefix[i];
+                if (ignoreCase)
+                {
+                    sourceChar = CharUtil.ToUpperLetter(sourceChar);
+                    targetChar = CharUtil.ToUpperLetter(targetChar);
+                }
+
+                if (sourceChar != targetChar)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
