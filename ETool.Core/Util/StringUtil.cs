@@ -206,5 +206,47 @@
 
             return new string(resultChars);
         }
+
+        /// <summary>
+        /// 将指定字符串重复指定次数
+        /// </summary>
+        /// <param name="s">待重复的源字符串</param>
+        /// <param name="count">重复次数</param>
+        /// <param name="sep">分隔符</param>
+        /// <returns>重复拼接后的字符串</returns>
+        public static string Repeat(string s, int count, char sep = ' ')
+        {
+            if (IsNull(s) || count <= 0)
+            {
+                return "";
+            }
+
+            if (count == 1)
+            {
+                return s;
+            }
+
+            long totalLength = (long)(s.Length + 1) * count - 1;
+            if (totalLength > int.MaxValue)
+            {
+                return "";
+            }
+
+            char[] resultChars = new char[totalLength];
+
+            int nextIndex = 0;
+            s.CopyTo(0, resultChars, nextIndex, s.Length);
+            nextIndex += s.Length;
+            for (int i = 1; i < count; i++)
+            {
+                resultChars[nextIndex] = sep;
+                nextIndex += 1;
+
+                s.CopyTo(0, resultChars, nextIndex, s.Length);
+                nextIndex += s.Length;
+            }
+
+            return new string(resultChars);
+        }
     }
 }
