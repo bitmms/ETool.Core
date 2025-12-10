@@ -14,7 +14,7 @@
         {
             if (x1 < x2)
             {
-                CommonUtil.Swap(ref x1, ref x2);
+                (x1, x2) = (x2, x1);
             }
         }
 
@@ -27,7 +27,7 @@
         {
             if (x1 > x2)
             {
-                CommonUtil.Swap(ref x1, ref x2);
+                (x1, x2) = (x2, x1);
             }
         }
     }
