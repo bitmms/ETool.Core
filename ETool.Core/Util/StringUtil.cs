@@ -417,5 +417,22 @@ namespace ETool.Core.Util
 
             return -1;
         }
+
+        /// <summary>
+        /// 在字符串中查找指定字符首次出现的索引
+        /// </summary>
+        /// <param name="str">源字符串</param>
+        /// <param name="c">目标字符</param>
+        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
+        /// <returns>找到返回索引，否则返回 -1</returns>
+        public static int IndexOf(string str, char c, bool ignoreCase = false)
+        {
+            if (IsNull(str))
+            {
+                return -1;
+            }
+
+            return IndexOf(str, c, 0, str.Length, ignoreCase);
+        }
     }
 }
