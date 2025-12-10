@@ -594,5 +594,49 @@ namespace ETool.Core.Util
 
             return true;
         }
+
+        /// <summary>
+        /// 判断字符串是否以指定子串结束
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="suffix">待检查的后缀子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>字符串以指定子串结束返回 true，否则返回 false</returns>
+        public static bool EndsWith(string sourceString, string suffix, bool ignoreCase = false)
+        {
+            if (IsNull(sourceString) || IsNull(suffix))
+            {
+                return false;
+            }
+
+            if (IsEmpty(suffix))
+            {
+                return true;
+            }
+
+            if (sourceString.Length < suffix.Length)
+            {
+                return false;
+            }
+
+            int idx = 0;
+            for (int i = sourceString.Length - suffix.Length; i < sourceString.Length; i++)
+            {
+                char sourceChar = sourceString[i];
+                char targetChar = suffix[idx++];
+                if (ignoreCase)
+                {
+                    sourceChar = CharUtil.ToUpperLetter(sourceChar);
+                    targetChar = CharUtil.ToUpperLetter(targetChar);
+                }
+
+                if (sourceChar != targetChar)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
