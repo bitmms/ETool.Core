@@ -58,6 +58,47 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 比较两个字符串是否相等
+        /// </summary>
+        /// <param name="s1">第一个字符串</param>
+        /// <param name="s2">第二个字符串</param>
+        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
+        /// <returns>如果字符串相等返回 true，否则返回 false</returns>
+        public static bool Compare(string s1, string s2, bool ignoreCase = false)
+        {
+            if (IsNull(s1) && IsNull(s2))
+            {
+                return true;
+            }
+
+            if (IsNull(s1) || IsNull(s2))
+            {
+                return false;
+            }
+
+            if (s1.Length != s2.Length)
+            {
+                return false;
+            }
+
+            if (!ignoreCase)
+            {
+                return s1 == s2;
+            }
+
+            int len = s1.Length;
+            for (int i = 0; i < len; i++)
+            {
+                if (CharUtil.ToUpperLetter(s1[i]) != CharUtil.ToUpperLetter(s2[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// 将字符串中的小写英文字符转大写
         /// </summary>
         /// <param name="s">待转换的字符串</param>
