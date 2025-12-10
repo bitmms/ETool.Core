@@ -434,5 +434,81 @@ namespace ETool.Core.Util
 
             return IndexOf(s, c, 0, s.Length, ignoreCase);
         }
+
+        /// <summary>
+        /// 在字符串的指定范围内查找指定子串首次出现的索引 TODO: 使用 KMP 算法优化
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="targetString">目标子串</param>
+        /// <param name="start">起始索引位置（包含）</param>
+        /// <param name="count">需要检查的字符数量</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>找到返回索引，否则返回 -1</returns>
+        public static int IndexOf(string sourceString, string targetString, int start, int count, bool ignoreCase = false)
+        {
+            if (IsNull(sourceString) || IsNull(targetString))
+            {
+                return -1;
+            }
+
+            if (start >= sourceString.Length || count <= 0)
+            {
+                return -1;
+            }
+
+            if (start < 0)
+            {
+                start = 0;
+            }
+
+            if (IsEmpty(targetString))
+            {
+                return start;
+            }
+
+            if (count > sourceString.Length - start)
+            {
+                count = sourceString.Length - start;
+            }
+
+            if (count < targetString.Length)
+            {
+                return -1;
+            }
+
+            // 外层循环：尝试每一个可能的起始位置
+            int lastStart = start + (count - 1) - (targetString.Length - 1);
+            for (int i = start; i <= lastStart; i++)
+            {
+                bool match = true;
+
+                // 内层循环：逐字符比较
+                for (int j = 0; j < targetString.Length; j++)
+                {
+                    char sourceChar = sourceString[i + j];
+                    char targetChar = targetString[j];
+
+                    if (ignoreCase)
+                    {
+                        sourceChar = CharUtil.ToUpperLetter(sourceChar);
+                        targetChar = CharUtil.ToUpperLetter(targetChar);
+                    }
+
+                    if (sourceChar != targetChar)
+                    {
+                        match = false;
+                        break;
+                    }
+                }
+
+                if (match)
+                {
+                    return i;
+                }
+            }
+
+
+            return -1;
+        }
     }
 }
