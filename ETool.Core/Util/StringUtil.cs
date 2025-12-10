@@ -665,5 +665,32 @@ namespace ETool.Core.Util
 
             return sourceString;
         }
+
+        /// <summary>
+        /// 移除字符串的指定后缀
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="suffix">待移除的后缀子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>移除后缀的字符串</returns>
+        public static string RemoveSuffix(string sourceString, string suffix, bool ignoreCase = false)
+        {
+            if (IsNull(sourceString) || IsEmpty(sourceString))
+            {
+                return "";
+            }
+
+            if (IsNull(suffix) || IsEmpty(suffix))
+            {
+                return sourceString;
+            }
+
+            if (EndsWith(sourceString, suffix, ignoreCase))
+            {
+                sourceString = sourceString.Substring(0, sourceString.Length - suffix.Length);
+            }
+
+            return sourceString;
+        }
     }
 }
