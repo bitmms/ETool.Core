@@ -1,4 +1,6 @@
-﻿namespace ETool.Core.Util
+﻿using System;
+
+namespace ETool.Core.Util
 {
     /// <summary>
     /// 字符串工具类
@@ -241,6 +243,74 @@
             {
                 resultChars[nextIndex] = sep;
                 nextIndex += 1;
+
+                s.CopyTo(0, resultChars, nextIndex, s.Length);
+                nextIndex += s.Length;
+            }
+
+            return new string(resultChars);
+        }
+
+        /// <summary>
+        /// 将指定字符串重复指定次数
+        /// </summary>
+        /// <param name="s">待重复的源字符串</param>
+        /// <param name="count">重复次数</param>
+        /// <param name="sep">分隔符</param>
+        /// <returns>重复拼接后的字符串</returns>
+        public static string Repeat(string s, int count, string sep = " ")
+        {
+            if (IsNull(s) || count <= 0)
+            {
+                return "";
+            }
+
+            if (count == 1)
+            {
+                return s;
+            }
+
+            if (IsNull(sep))
+            {
+                sep = "";
+            }
+
+            long totalLength = (long)(s.Length + sep.Length) * count - sep.Length;
+            if (totalLength > int.MaxValue)
+            {
+                return "";
+            }
+
+            char[] resultChars = new char[totalLength];
+
+            if (IsEmpty(sep))
+            {
+                // 开头部分：直接手动拷贝
+                s.CopyTo(0, resultChars, 0, s.Length);
+
+                // 记录当前已经拷贝的数量
+                int n = s.Length;
+
+                // 中间部分：倍增拷贝
+                while (n < totalLength - n)
+                {
+                    Array.Copy(resultChars, 0, resultChars, n, n);
+                    n <<= 1; // n *= 2;
+                }
+
+                // 结尾部分：直接手动拷贝
+                Array.Copy(resultChars, 0, resultChars, n, totalLength - n);
+
+                return new string(resultChars);
+            }
+
+            int nextIndex = 0;
+            s.CopyTo(0, resultChars, nextIndex, s.Length);
+            nextIndex += s.Length;
+            for (int i = 1; i < count; i++)
+            {
+                sep.CopyTo(0, resultChars, nextIndex, sep.Length);
+                nextIndex += sep.Length;
 
                 s.CopyTo(0, resultChars, nextIndex, s.Length);
                 nextIndex += s.Length;
