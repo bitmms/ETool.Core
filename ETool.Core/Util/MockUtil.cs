@@ -55,5 +55,39 @@ namespace ETool.Core.Util
         }
 
         #endregion
+
+        #region 生成模拟的中文姓名
+
+        private static readonly List<string> FirstChineseNameList = new List<string>
+        {
+            "王", "李", "张", "刘", "陈", "杨", "赵", "黄", "周", "吴", "徐", "孙", "胡", "朱", "高", "林", "何", "郭", "马", "罗",
+            "梁", "宋", "郑", "谢", "韩", "唐", "冯", "于", "董", "萧", "程", "曹", "袁", "邓", "许", "傅", "沈", "曾", "彭", "吕",
+            "苏", "卢", "蒋", "蔡", "贾", "丁", "魏", "薛", "叶", "阎", "余", "潘", "杜", "戴", "夏", "钟", "汪", "田", "任", "姜",
+            "范", "方", "石", "姚", "谭", "廖", "邹", "熊", "金", "陆", "郝", "孔", "白", "崔", "康", "毛", "邱", "秦", "江", "史",
+            "顾", "侯", "邵", "孟", "龙", "万", "段", "雷", "钱", "汤", "常", "武", "乔", "贺", "赖", "龚", "文", "樊", "兰", "殷",
+        };
+
+        private static readonly List<string> LastChineseNameList = new List<string>
+        {
+            "伟", "强", "勇", "军", "峰", "磊", "涛", "杰", "鹏", "辉", "明", "浩", "宇", "轩", "泽", "辰", "航", "瑞", "博", "超",
+            "毅", "恒", "俊", "楠", "彬", "诚", "康", "健", "鑫", "阳", "婷", "娜", "丽", "娟", "芳", "萍", "敏", "静", "燕", "玲",
+            "钦", "庆", "秋", "泉", "然", "仁", "荣", "锐", "润", "森", "祺", "启", "盛", "书", "舒", "帅", "烁", "朔", "松", "嵩",
+            "菊", "欣", "悦", "馨", "妍", "雅", "萱", "雨", "晴", "梦", "甜", "思", "婉", "柔", "淑", "惠", "钰", "瑾", "蓉", "薇",
+            "曼", "涵", "汐", "玥", "凝", "珞", "瑜", "恬", "沐", "屿", "柠", "安", "诺", "芮", "晨", "希", "然", "易", "亦", "伊"
+        };
+
+        /// <summary>
+        /// 生成模拟的中文姓名
+        /// </summary>
+        /// <returns>模拟生成的中文姓名</returns>
+        public static string MockChineseName()
+        {
+            string first = FirstChineseNameList[RandomUtil.GetRandomInt(0, FirstChineseNameList.Count - 1)];
+            string middle = LastChineseNameList[RandomUtil.GetRandomInt(0, LastChineseNameList.Count - 1)];
+            string last = RandomUtil.GetRandomBool() ? "" : LastChineseNameList[RandomUtil.GetRandomInt(0, LastChineseNameList.Count - 1)];
+            return first + middle + last;
+        }
+
+        #endregion
     }
 }
