@@ -112,5 +112,47 @@
 
             return new string(chars);
         }
+
+        /// <summary>
+        /// 将指定字符重复指定次数
+        /// </summary>
+        /// <param name="c">待重复的字符</param>
+        /// <param name="count">重复次数</param>
+        /// <param name="sep">分隔符</param>
+        /// <returns>重复拼接后的字符串</returns>
+        public static string Repeat(char c, int count, char sep = ' ')
+        {
+            if (count <= 0)
+            {
+                return "";
+            }
+
+            if (count == 1)
+            {
+                return c.ToString();
+            }
+
+            long totalLength = 2L * count - 1;
+            if (totalLength > int.MaxValue)
+            {
+                return "";
+            }
+
+            char[] resultChars = new char[totalLength];
+
+            int nextIndex = 0;
+            resultChars[nextIndex] = c;
+            nextIndex += 1;
+            for (int i = 1; i < count; i++)
+            {
+                resultChars[nextIndex] = sep;
+                nextIndex += 1;
+
+                resultChars[nextIndex] = c;
+                nextIndex += 1;
+            }
+
+            return new string(resultChars);
+        }
     }
 }
