@@ -527,5 +527,17 @@ namespace ETool.Core.Util
 
             return IndexOf(sourceString, targetString, 0, sourceString.Length, ignoreCase);
         }
+
+        /// <summary>
+        /// 判断字符串是否包含指定字符
+        /// </summary>
+        /// <param name="s">源字符串</param>
+        /// <param name="c">目标字符</param>
+        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
+        /// <returns>包含返回 true，否则返回 false</returns>
+        public static bool Contains(string s, char c, bool ignoreCase = false)
+        {
+            return IndexOf(s, c, ignoreCase) >= 0;
+        }
     }
 }
