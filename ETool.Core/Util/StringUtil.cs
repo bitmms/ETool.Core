@@ -359,5 +359,63 @@ namespace ETool.Core.Util
 
             return new string(resultChars);
         }
+
+        /// <summary>
+        /// 在字符串的指定范围内查找指定字符首次出现的索引
+        /// </summary>
+        /// <param name="str">源字符串</param>
+        /// <param name="c">目标字符</param>
+        /// <param name="start">起始索引位置（包含）</param>
+        /// <param name="count">需要检查的字符数量</param>
+        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
+        /// <returns>找到返回索引，否则返回 -1</returns>
+        public static int IndexOf(string str, char c, int start, int count, bool ignoreCase = false)
+        {
+            if (IsNull(str) || IsEmpty(str))
+            {
+                return -1;
+            }
+
+            if (start >= str.Length || count <= 0)
+            {
+                return -1;
+            }
+
+            if (start < 0)
+            {
+                start = 0;
+            }
+
+            if (count > str.Length - start)
+            {
+                count = str.Length - start;
+            }
+
+            int endIndex = start + count - 1;
+
+            if (!ignoreCase)
+            {
+                for (int i = start; i <= endIndex; i++)
+                {
+                    if (str[i] == c)
+                    {
+                        return i;
+                    }
+                }
+            }
+            else
+            {
+                char upperTargetChar = CharUtil.ToUpperLetter(c);
+                for (int i = start; i <= endIndex; i++)
+                {
+                    if (CharUtil.ToUpperLetter(str[i]) == upperTargetChar)
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            return -1;
+        }
     }
 }
