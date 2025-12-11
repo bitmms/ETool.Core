@@ -23,5 +23,23 @@ namespace ETool.Core.Test.Net472.Util
             Assert.False(result3, $"字符 '{c3}' 不应该被判断为数字字符");
             Assert.False(result4, $"字符 '{c4}' 不应该被判断为数字字符");
         }
+
+        [Theory]
+        [InlineData('a', true, "字母 '0' 应判定为字母")]
+        [InlineData('z', true, "字母 '9' 应判定为字母")]
+        [InlineData('A', true, "符号 'A' 应判定为字母")]
+        [InlineData('Z', true, "符号 'Z' 应判定为字母")]
+        [InlineData('ａ', false, "符号 'ａ' 不应判定为字母")]
+        [InlineData('ｂ', false, "符号 'ｂ' 不应判定为字母")]
+        [InlineData('Ａ', false, "符号 'Ａ' 不应判定为字母")]
+        [InlineData('+', false, "符号 '+' 不应判定为字母")]
+        [InlineData('-', false, "符号 '-' 不应判定为字母")]
+        [InlineData('.', false, "符号 '.' 不应判定为字母")]
+        [InlineData(' ', false, "符号 ' ' 不应判定为字母")]
+        public void IsLetterTest(char testChar, bool expectedResult, string errorMsg)
+        {
+            var actualResult = CharUtil.IsLetter(testChar);
+            Assert.True(actualResult == expectedResult, errorMsg);
+        }
     }
 }
