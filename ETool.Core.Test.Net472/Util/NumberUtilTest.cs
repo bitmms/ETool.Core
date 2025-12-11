@@ -1,0 +1,125 @@
+﻿using System.Collections.Generic;
+using ETool.Core.Util;
+using Xunit;
+
+namespace ETool.Core.Test.Net472.Util
+{
+    public class NumberUtilTest
+    {
+        public static IEnumerable<object[]> AddTestData()
+        {
+            // ✅ 正数 + 正数（含动态超大数）
+            yield return new object[] { "1", "2", "3", "1 + 2 应等于 3" };
+            yield return new object[] { "999", "1", "1000", "999 + 1 应等于 1000" };
+            yield return new object[] { "123456789", "987654321", "1111111110", "大正数相加应正确进位" };
+            yield return new object[] { "999999999999999999999999999999", "1", "1000000000000000000000000000000", "极大数加1应正确" };
+            // 动态生成100位超大数（解决InlineData常量限制）
+            var bigNum1 = "1" + new string('9', 99);
+            var bigNum1Result = "2" + new string('0', 99);
+            yield return new object[] { bigNum1, "1", bigNum1Result, "100位极大正数相加应正确进位" };
+            yield return new object[] { "12345678901234567890123456789012345678901234567890", "98765432109876543210987654321098765432109876543210", "111111111011111111101111111110111111111011111111100", "50位超大正数相加应正确" };
+            yield return new object[] { "9223372036854775807", "1", "9223372036854775808", "long最大值+1应正确（超出long范围仍计算）" };
+
+            // ✅ 正数 + 负数（结果为正）
+            yield return new object[] { "10", "-3", "7", "10 + (-3) 应等于 7" };
+            yield return new object[] { "1000", "-1", "999", "1000 + (-1) 应等于 999" };
+            yield return new object[] { "500", "-499", "1", "差值为1的正负相加应得1" };
+            yield return new object[] { "1000000000000000000000000000000", "-999999999999999999999999999999", "1", "极大正数+极大负数（结果为1）应正确" };
+
+            // ✅ 正数 + 负数（结果为负）
+            yield return new object[] { "3", "-10", "-7", "3 + (-10) 应等于 -7" };
+            yield return new object[] { "1", "-999", "-998", "小正数加大负数应得负数" };
+            yield return new object[] { "999999999999999999999999999999", "-1000000000000000000000000000000", "-1", "极大正数+极大负数（结果为-1）应正确" };
+
+            // ✅ 正数 + 负数（结果为零）
+            yield return new object[] { "123", "-123", "0", "互为相反数相加应为0" };
+            yield return new object[] { "1", "-1", "0", "1 + (-1) 应等于 0" };
+            yield return new object[] { "9223372036854775807", "-9223372036854775807", "0", "long最大值+其相反数应等于0" };
+
+            // ✅ 负数 + 正数（结果为负）
+            yield return new object[] { "-10", "3", "-7", "-10 + 3 应等于 -7" };
+            yield return new object[] { "-1000", "1", "-999", "-1000 + 1 应等于 -999" };
+            yield return new object[] { "-1000000000000000000000000000000", "999999999999999999999999999999", "-1", "极大负数+极大正数（结果为-1）应正确" };
+
+            // ✅ 负数 + 正数（结果为正）
+            yield return new object[] { "-3", "10", "7", "-3 + 10 应等于 7" };
+            yield return new object[] { "-1", "999", "998", "大正数加小负数应得正数" };
+            yield return new object[] { "-999999999999999999999999999999", "1000000000000000000000000000000", "1", "极大负数+极大正数（结果为1）应正确" };
+
+            // ✅ 负数 + 正数（结果为零）
+            yield return new object[] { "-555", "555", "0", "互为相反数相加应为0" };
+            yield return new object[] { "-9223372036854775808", "9223372036854775808", "0", "long最小值+其相反数应等于0" };
+
+            // ✅ 负数 + 负数
+            yield return new object[] { "-1", "-2", "-3", "-1 + (-2) 应等于 -3" };
+            yield return new object[] { "-999", "-1", "-1000", "两个负数相加应为更小的负数" };
+            yield return new object[] { "-123456789", "-987654321", "-1111111110", "大负数相加应正确" };
+            yield return new object[] { "-999999999999999999999999999999", "-1", "-1000000000000000000000000000000", "极大负数加-1应正确" };
+            yield return new object[] { "-12345678901234567890123456789012345678901234567890", "-98765432109876543210987654321098765432109876543210", "-111111111011111111101111111110111111111011111111100", "50位超大负数相加应正确" };
+            yield return new object[] { "-9223372036854775808", "-1", "-9223372036854775809", "long最小值-1应正确（超出long范围仍计算）" };
+
+            // ✅ 零值处理
+            yield return new object[] { "0", "0", "0", "0 + 0 应等于 0" };
+            yield return new object[] { "0", "123", "123", "0 + 正数 应等于该正数" };
+            yield return new object[] { "456", "0", "456", "正数 + 0 应等于该正数" };
+            yield return new object[] { "0", "-789", "-789", "0 + 负数 应等于该负数" };
+            yield return new object[] { "-100", "0", "-100", "负数 + 0 应等于该负数" };
+            yield return new object[] { "0", "-0", "", "0 + '-0'（非法负零）应等于空字符串" };
+
+            // ❌ 非法输入：返回空字符串 - 基础非法场景
+            yield return new object[] { "", "123", "", "空字符串作为输入应返回空" };
+            yield return new object[] { "123", "", "", "空字符串作为输入应返回空" };
+            yield return new object[] { "abc", "123", "", "非数字字符串应返回空" };
+            yield return new object[] { "12a", "34", "", "含字母的字符串应返回空" };
+            yield return new object[] { "-", "5", "", "单独 '-' 不是合法整数" };
+            yield return new object[] { "01", "2", "", "'01' 含前导零，不是合法正整数" };
+            yield return new object[] { "-01", "2", "", "'-01' 含前导零，不是合法负整数" };
+            yield return new object[] { "--5", "3", "", "双重负号非法" };
+            yield return new object[] { "+-5", "3", "", "混合符号非法" };
+            yield return new object[] { " ", "5", "", "空白字符串非法" };
+            yield return new object[] { "123", "00", "", "'00' 非法（前导零且非单个0）" };
+            yield return new object[] { "0", "00", "", "'00' 非法" };
+
+            // ❌ 非法输入：返回空字符串 - Null输入场景
+            yield return new object[] { null, "123", "", "null作为第一个输入应返回空" };
+            yield return new object[] { "123", null, "", "null作为第二个输入应返回空" };
+            yield return new object[] { null, null, "", "两个null输入应返回空" };
+
+            // ❌ 非法输入：返回空字符串 - 特殊字符/格式变种
+            yield return new object[] { "１２３", "456", "", "全角数字字符串非法" };
+            yield return new object[] { "123", "４５６", "", "全角数字字符串非法" };
+            yield return new object[] { "1,234", "567", "", "含千分位逗号的数字非法" };
+            yield return new object[] { "123", "5,678", "", "含千分位逗号的数字非法" };
+            yield return new object[] { "123.45", "67", "", "含小数点的字符串不是整数，应返回空" };
+            yield return new object[] { "123", "67.89", "", "含小数点的字符串不是整数，应返回空" };
+            yield return new object[] { " 123 ", "45", "", "数字前后含空格非法" };
+            yield return new object[] { "123", " 45 ", "", "数字前后含空格非法" };
+            yield return new object[] { "\t123", "45", "", "含制表符的输入非法" };
+            yield return new object[] { "123", "\n45", "", "含换行符的输入非法" };
+            yield return new object[] { "000123", "45", "", "多个前导零非法" };
+            yield return new object[] { "123", "-00045", "", "负数含多个前导零非法" };
+            yield return new object[] { "+123", "45", "", "'+123' 以+开头非法（仅允许-开头）" };
+            yield return new object[] { "123", "+45", "", "'+45' 以+开头非法（仅允许-开头）" };
+            yield return new object[] { "0000", "1", "", "'0000' 多个零非法（非单个0）" };
+            yield return new object[] { "123_456", "78", "", "含下划线的数字字符串非法" };
+            yield return new object[] { "\0", "5", "", "空字符（\\0）非法" };
+            yield return new object[] { "123", "\0", "", "空字符（\\0）非法" };
+            yield return new object[] { "９９９", "888", "", "全角数字（９９９）非法" };
+            yield return new object[] { "∞", "123", "", "特殊符号（无穷大）非法" };
+            yield return new object[] { "123", "Ⅷ", "", "罗马数字非法" };
+
+            // ❌ 非法输入：返回空字符串 - 边界非法场景
+            yield return new object[] { "9223372036854775807a", "1", "", "long最大值后加字母非法" };
+            yield return new object[] { "-9223372036854775808-", "1", "", "long最小值后加符号非法" };
+            yield return new object[] { "0", "00000", "", "多个零（00000）非法" };
+        }
+
+        [Theory]
+        [MemberData(nameof(AddTestData))]
+        public void AddTest(string n1, string n2, string expected, string message)
+        {
+            string actual = NumberUtil.Add(n1, n2);
+            Assert.True(expected == actual, message);
+        }
+    }
+}
