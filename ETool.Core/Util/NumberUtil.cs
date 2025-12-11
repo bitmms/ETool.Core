@@ -185,5 +185,72 @@ namespace ETool.Core.Util
             string abs2 = n2.Substring(1); // n2 是负数，截取后为绝对值
             return "-" + AddPositive(abs1, abs2);
         }
+
+        /// <summary>
+        /// 用一个整数减去另一个整数【支持负数，不支持前导零】
+        /// </summary>
+        /// <param name="n1">第一个整数</param>
+        /// <param name="n2">第二个整数</param>
+        /// <returns>n1-n2的结果</returns>
+        public static string Sub(string n1, string n2)
+        {
+            if (!ValidatorUtil.IsValidNumber(n1) || !ValidatorUtil.IsValidNumber(n2))
+            {
+                return "";
+            }
+
+            if (n1 == "0")
+            {
+                if (n2[0] == '-')
+                {
+                    return n2.Substring(1);
+                }
+
+                if (n2 == "0")
+                {
+                    return "0";
+                }
+
+                return "-" + n2;
+            }
+
+            if (n2 == "0")
+            {
+                return n1;
+            }
+
+            // 到此，n1，n2只能是正整数或负整数
+
+            // n1>0, n2>0
+            if (ValidatorUtil.IsValidPositiveNumber(n1) && ValidatorUtil.IsValidPositiveNumber(n2))
+            {
+                int compare = Compare(n1, n2);
+                if (compare > 0) return SubPositive(n1, n2);
+                if (compare < 0) return "-" + SubPositive(n2, n1);
+                return "0";
+            }
+
+            // n1>0, n2<0
+            if (ValidatorUtil.IsValidPositiveNumber(n1) && !ValidatorUtil.IsValidPositiveNumber(n2))
+            {
+                string absN2 = n2.Substring(1); // n2 是负数，截取后为绝对值
+                return Add(n1, absN2);
+            }
+
+            // n1<0, n2>0
+            if (!ValidatorUtil.IsValidPositiveNumber(n1) && ValidatorUtil.IsValidPositiveNumber(n2))
+            {
+                string absN1 = n1.Substring(1); // n1 是负数，截取后为绝对值
+                return "-" + Add(absN1, n2);
+            }
+
+            // n1<0, n2<0
+            string abs1 = n1.Substring(1); // n1 是负数，截取后为绝对值
+            string abs2 = n2.Substring(1); // n2 是负数，截取后为绝对值
+            int compareResult = Compare(abs2, abs1);
+            if (compareResult > 0) return SubPositive(abs2, abs1);
+            if (compareResult < 0) return "-" + SubPositive(abs1, abs2);
+            return "0";
+        }
     }
 }
