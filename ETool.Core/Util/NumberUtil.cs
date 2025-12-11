@@ -35,6 +35,25 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 比较两个正整数的大小【私有方法：可以确保 n1，n2均为正整数且不包含前导0】
+        /// </summary>
+        /// <param name="n1">第一个正整数</param>
+        /// <param name="n2">第二个正整数</param>
+        /// <returns>n1 大于 n2 返回 1；n1 小于 n2 返回 -1；否则返回 0</returns>
+        private static int Compare(string n1, string n2)
+        {
+            if (n1.Length < n2.Length) return -1;
+            if (n1.Length > n2.Length) return 1;
+            for (int i = 0; i < n1.Length; i++)
+            {
+                if (n1[i] > n2[i]) return 1;
+                if (n1[i] < n2[i]) return -1;
+            }
+
+            return 0;
+        }
+
+        /// <summary>
         /// 将两个正整数相加【私有方法：可以确保 n1，n2均为正整数且不包含前导0】
         /// </summary>
         /// <param name="n1">第一个正整数</param>
