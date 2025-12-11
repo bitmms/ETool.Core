@@ -121,5 +121,72 @@ namespace ETool.Core.Test.Net472.Util
             string actual = NumberUtil.Add(n1, n2);
             Assert.True(expected == actual, message);
         }
+
+        public static IEnumerable<object[]> SubTestData()
+        {
+            // ✅ 0 相关
+            yield return new object[] { "0", "0", "0", "0 - 0 = 0" };
+            yield return new object[] { "0", "5", "-5", "0 - 5 = -5" };
+            yield return new object[] { "0", "-3", "3", "0 - (-3) = 3" };
+            yield return new object[] { "7", "0", "7", "7 - 0 = 7" };
+            yield return new object[] { "-4", "0", "-4", "-4 - 0 = -4" };
+
+            // ✅ 正 - 正（a > b）
+            yield return new object[] { "10", "3", "7", "10 - 3 = 7" };
+            yield return new object[] { "100", "1", "99", "100 - 1 = 99" };
+            yield return new object[] { "999999999", "123456789", "876543210", "大正数相减应正确" };
+
+            // ✅ 正 - 正（a < b）→ 负结果
+            yield return new object[] { "3", "10", "-7", "3 - 10 = -7" };
+            yield return new object[] { "1", "100", "-99", "1 - 100 = -99" };
+            yield return new object[] { "123456789", "999999999", "-876543210", "小正减大正得负" };
+
+            // ✅ 正 - 正（相等）
+            yield return new object[] { "5", "5", "0", "5 - 5 = 0" };
+            yield return new object[] { "999999999999", "999999999999", "0", "大数相减相等得0" };
+
+            // ✅ 正 - 负 → 加法
+            yield return new object[] { "5", "-3", "8", "5 - (-3) = 8" };
+            yield return new object[] { "100", "-1", "101", "100 - (-1) = 101" };
+            yield return new object[] { "123456789", "-987654321", "1111111110", "正减大负数得大正" };
+
+            // ✅ 负 - 正 → 更负
+            yield return new object[] { "-5", "3", "-8", "-5 - 3 = -8" };
+            yield return new object[] { "-100", "1", "-101", "-100 - 1 = -101" };
+            yield return new object[] { "-123456789", "987654321", "-1111111110", "负减正得更负" };
+
+            // ✅ 负 - 负（|n1| > |n2|）→ 负结果
+            yield return new object[] { "-10", "-3", "-7", "-10 - (-3) = -7" };
+            yield return new object[] { "-1000", "-1", "-999", "-1000 - (-1) = -999" };
+
+            // ✅ 负 - 负（|n1| < |n2|）→ 正结果
+            yield return new object[] { "-3", "-10", "7", "-3 - (-10) = 7" };
+            yield return new object[] { "-1", "-100", "99", "-1 - (-100) = 99" };
+
+            // ✅ 负 - 负（相等）
+            yield return new object[] { "-777", "-777", "0", "-777 - (-777) = 0" };
+
+            // ✅ 超大数减法
+            yield return new object[] { "1000000000000000000000000000000", "1", "999999999999999999999999999999", "极大数减1" };
+            yield return new object[] { "-1000000000000000000000000000000", "-1", "-999999999999999999999999999999", "极大负数减(-1)" };
+            yield return new object[] { "123456789012345678901234567890", "98765432109876543210987654321", "24691356902469135690246913569", "50位大数相减" };
+
+            // ❌ 非法输入（返回空字符串）
+            yield return new object[] { "abc", "1", "", "非数字输入应返回空" };
+            yield return new object[] { "01", "2", "", "前导零非法" };
+            yield return new object[] { "1", "-0", "", "'-0' 非法（假设 Validator 拒绝）" };
+            yield return new object[] { null, "1", "", "null 输入应返回空" };
+            yield return new object[] { "123", "", "", "空字符串输入应返回空" };
+            yield return new object[] { "--5", "3", "", "双重负号非法" };
+            yield return new object[] { "12.3", "4", "", "含小数点非法" };
+        }
+
+        [Theory]
+        [MemberData(nameof(SubTestData))]
+        public void SubTest(string n1, string n2, string expected, string message)
+        {
+            string actual = NumberUtil.Sub(n1, n2);
+            Assert.True(expected == actual, message);
+        }
     }
 }
