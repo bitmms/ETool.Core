@@ -135,6 +135,18 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 将两个正整数相乘【私有方法：可以确保 n1，n2均为正整数且不包含前导0，并且 n1 和 n2 的最大长度是 10000】
+        /// </summary>
+        /// <param name="n1">第一个正整数</param>
+        /// <param name="n2">第二个正整数</param>
+        /// <returns>n1 减 n2 的差值</returns>
+        private static string MulPositive(string n1, string n2)
+        {
+            // TODO 正整数相乘
+            return "";
+        }
+
+        /// <summary>
         /// 高精度整数相加【支持负数，不支持前导零】
         /// </summary>
         /// <param name="n1">第一个整数</param>
