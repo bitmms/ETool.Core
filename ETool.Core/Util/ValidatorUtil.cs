@@ -78,6 +78,36 @@
         }
 
         /// <summary>
+        /// 校验指定字符串是否符合整数的格式规范
+        /// </summary>
+        /// <param name="s">待校验的字符串</param>
+        /// <returns>如果字符串符合整数的格式规范返回 true，否则返回 false</returns>
+        public static bool IsValidNumber(string s)
+        {
+            if (StringUtil.IsNullOrEmpty(s))
+            {
+                return false;
+            }
+
+            if (s == "0")
+            {
+                return true;
+            }
+
+            if (s[0] != '-')
+            {
+                return IsValidPositiveNumber(s);
+            }
+
+            if (s.Length == 1)
+            {
+                return false;
+            }
+
+            return IsValidPositiveNumber(s.Substring(1));
+        }
+
+        /// <summary>
         /// 校验指定字符串是否符合 QQ 号码的格式规范
         /// </summary>
         /// <param name="s">待校验的字符串</param>
