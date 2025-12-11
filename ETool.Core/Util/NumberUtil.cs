@@ -148,6 +148,12 @@ namespace ETool.Core.Util
                 return "";
             }
 
+            // 限制长度 ≤ 10,000 字符
+            if (n1.Length > 10_000 || n2.Length > 10_000)
+            {
+                return "";
+            }
+
             // 0值快速返回
             if (n1 == "0") return n2;
             if (n2 == "0") return n1;
@@ -195,6 +201,12 @@ namespace ETool.Core.Util
         public static string Sub(string n1, string n2)
         {
             if (!ValidatorUtil.IsValidNumber(n1) || !ValidatorUtil.IsValidNumber(n2))
+            {
+                return "";
+            }
+
+            // 限制长度 ≤ 10,000 字符
+            if (n1.Length > 10_000 || n2.Length > 10_000)
             {
                 return "";
             }
