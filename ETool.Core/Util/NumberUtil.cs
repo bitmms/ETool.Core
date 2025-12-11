@@ -88,5 +88,50 @@ namespace ETool.Core.Util
 
             return new string(resultChars);
         }
+
+        /// <summary>
+        /// 将两个正整数相减【私有方法：可以确保 n1，n2均为正整数且不包含前导0，并且 n1 >= n2】
+        /// </summary>
+        /// <param name="n1">第一个正整数</param>
+        /// <param name="n2">第二个正整数</param>
+        /// <returns>n1 减 n2 的差值</returns>
+        private static string SubPositive(string n1, string n2)
+        {
+            int[] arr1 = new int[n1.Length];
+            int[] arr2 = new int[n2.Length];
+            for (int i = n1.Length - 1, j = 0; i >= 0; i--, j++)
+            {
+                arr1[j] = n1[i] - '0';
+            }
+
+            for (int i = n2.Length - 1, j = 0; i >= 0; i--, j++)
+            {
+                arr2[j] = n2[i] - '0';
+            }
+
+            StringBuilder resultSb = new StringBuilder(n1.Length);
+
+            for (int i = 0, t = 0; i < arr1.Length; i++)
+            {
+                t += arr1[i];
+                if (i < arr2.Length) t -= arr2[i];
+                resultSb.Append((t + 10) % 10);
+                if (t < 0) t = -1;
+                else t = 0;
+            }
+
+            char[] resultChars = resultSb.ToString().ToCharArray();
+            Array.Reverse(resultChars);
+
+            int leadingZeroCount = 0;
+            while (leadingZeroCount < resultChars.Length && resultChars[leadingZeroCount] == '0')
+            {
+                leadingZeroCount++;
+            }
+
+            if (leadingZeroCount == resultChars.Length) return "0";
+
+            return new string(resultChars, leadingZeroCount, resultChars.Length - leadingZeroCount);
+        }
     }
 }
