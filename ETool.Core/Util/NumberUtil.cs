@@ -276,5 +276,51 @@ namespace ETool.Core.Util
             if (compareResult < 0) return "-" + SubPositive(abs1, abs2);
             return "0";
         }
+
+        /// <summary>
+        /// 两个整数相乘【支持负数，不支持前导零】
+        /// </summary>
+        /// <param name="n1">第一个整数</param>
+        /// <param name="n2">第二个整数</param>
+        /// <returns>n1 * n2的结果</returns>
+        public static string Mul(string n1, string n2)
+        {
+            if (!ValidatorUtil.IsValidNumber(n1) || !ValidatorUtil.IsValidNumber(n2))
+            {
+                return "";
+            }
+
+            // 限制长度 ≤ 10,000 字符
+            if (n1.Length > 10_000 || n2.Length > 10_000)
+            {
+                return "";
+            }
+
+            if (n1 == "0" || n2 == "0")
+            {
+                return "0";
+            }
+
+            // n1>0, n2>0
+            if (ValidatorUtil.IsValidPositiveNumber(n1) && ValidatorUtil.IsValidPositiveNumber(n2))
+            {
+                return MulPositive(n1, n2);
+            }
+
+            // n1>0, n2<0
+            if (ValidatorUtil.IsValidPositiveNumber(n1) && !ValidatorUtil.IsValidPositiveNumber(n2))
+            {
+                return "-" + MulPositive(n1, n2.Substring(1));
+            }
+
+            // n1<0, n2>0
+            if (!ValidatorUtil.IsValidPositiveNumber(n1) && ValidatorUtil.IsValidPositiveNumber(n2))
+            {
+                return "-" + MulPositive(n1.Substring(1), n2);
+            }
+
+            // n1<0, n2<0
+            return MulPositive(n1.Substring(1), n2.Substring(1));
+        }
     }
 }
