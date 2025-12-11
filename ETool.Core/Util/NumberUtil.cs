@@ -1,4 +1,7 @@
-﻿namespace ETool.Core.Util
+﻿using System;
+using System.Text;
+
+namespace ETool.Core.Util
 {
     /// <summary>
     /// 整数工具类
@@ -29,6 +32,42 @@
             {
                 (x1, x2) = (x2, x1);
             }
+        }
+
+        /// <summary>
+        /// 将两个正整数相加【私有方法：可以确保 n1，n2均为正整数且不包含前导0】
+        /// </summary>
+        /// <param name="n1">第一个正整数</param>
+        /// <param name="n2">第二个正整数</param>
+        /// <returns>正整数相加的和</returns>
+        private static string AddPositive(string n1, string n2)
+        {
+            int[] arr1 = new int[n1.Length];
+            int[] arr2 = new int[n2.Length];
+            for (int i = n1.Length - 1, j = 0; i >= 0; i--, j++)
+            {
+                arr1[j] = n1[i] - '0';
+            }
+
+            for (int i = n2.Length - 1, j = 0; i >= 0; i--, j++)
+            {
+                arr2[j] = n2[i] - '0';
+            }
+
+            StringBuilder resultSb = new StringBuilder(Math.Max(n1.Length, n2.Length) + 1);
+
+            for (int i = 0, carry = 0; i < arr1.Length || i < arr2.Length || carry != 0; i++)
+            {
+                if (i < arr1.Length) carry += arr1[i];
+                if (i < arr2.Length) carry += arr2[i];
+                resultSb.Append(carry % 10);
+                carry /= 10;
+            }
+
+            char[] resultChars = resultSb.ToString().ToCharArray();
+            Array.Reverse(resultChars);
+
+            return new string(resultChars);
         }
     }
 }
