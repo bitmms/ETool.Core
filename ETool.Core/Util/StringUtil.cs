@@ -737,12 +737,12 @@ namespace ETool.Core.Util
         /// <summary>
         /// 字符串集合转字符串
         /// </summary>
+        /// <param name="separator">用于连接各元素的分隔符</param>
         /// <param name="items">待连接的字符串集合</param>
-        /// <param name="sep">用于连接各元素的分隔符</param>
         /// <param name="skipNull">是否跳过集合中的 null 元素</param>
         /// <param name="nullReplacement">当不跳过 null 时，用此字符串代替 null</param>
         /// <returns>拼接后的字符串</returns>
-        public static string JoinStrings(IEnumerable<string> items, string sep, bool skipNull = true, string nullReplacement = "null")
+        public static string Join(string separator, IEnumerable<string> items, bool skipNull = true, string nullReplacement = "null")
         {
             if (items == null)
             {
@@ -754,9 +754,9 @@ namespace ETool.Core.Util
                 nullReplacement = "null";
             }
 
-            if (sep == null)
+            if (separator == null)
             {
-                sep = "";
+                separator = "";
             }
 
             bool isFirstItem = true;
@@ -774,7 +774,7 @@ namespace ETool.Core.Util
                 }
                 else
                 {
-                    sb.Append(sep);
+                    sb.Append(separator);
                 }
 
                 sb.Append(IsNull(item) ? nullReplacement : item);
@@ -786,14 +786,14 @@ namespace ETool.Core.Util
         /// <summary>
         /// 字符串集合转字符串
         /// </summary>
-        /// <param name="items">待连接的字符串集合</param>
         /// <param name="sep">用于连接各元素的分隔符</param>
+        /// <param name="items">待连接的字符串集合</param>
         /// <param name="skipNull">是否跳过集合中的 null 元素</param>
         /// <param name="nullReplacement">当不跳过 null 时，用此字符串代替 null</param>
         /// <returns>拼接后的字符串</returns>
-        public static string JoinStrings(IEnumerable<string> items, char sep, bool skipNull = true, string nullReplacement = "null")
+        public static string Join(char sep, IEnumerable<string> items, bool skipNull = true, string nullReplacement = "null")
         {
-            return JoinStrings(items, sep.ToString(), skipNull, nullReplacement);
+            return Join(sep.ToString(), items, skipNull, nullReplacement);
         }
 
         /// <summary>
