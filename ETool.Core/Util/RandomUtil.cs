@@ -25,14 +25,14 @@ namespace ETool.Core.Util
         /// <summary>
         /// 获取一个指定区间内的随机整数
         /// </summary>
-        /// <param name="minValue">随机数的最小值（包含）</param>
-        /// <param name="maxValue">随机数的最大值（包含）</param>
-        /// <returns>介于 <c>minValue</c> 和 <c>maxValue</c> 之间的随机整数</returns>
+        /// <param name="minValue">随机数的下限（包含）</param>
+        /// <param name="maxValue">随机数的上限（不包含）</param>
+        /// <returns>一个随机整数</returns>
         public static int GetRandomInt(int minValue, int maxValue)
         {
             NumberUtil.SwapIfFirstLarger(ref minValue, ref maxValue);
 
-            return GetRandom().Next(minValue, maxValue + 1);
+            return GetRandom().Next(minValue, maxValue);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace ETool.Core.Util
         /// <returns>随机的布尔值</returns>
         public static bool GetRandomBool()
         {
-            return GetRandomInt(0, 1) == 0;
+            return GetRandomInt(0, 2) == 0;
         }
 
         /// <summary>
@@ -64,10 +64,10 @@ namespace ETool.Core.Util
             // 超出有效范围时：返回 0-9 的随机字符
             if (minValue > 9)
             {
-                return defaultChars[GetRandomInt(0, 9)];
+                return defaultChars[GetRandomInt(0, 10)];
             }
 
-            return defaultChars[GetRandomInt(minValue, maxValue)];
+            return defaultChars[GetRandomInt(minValue, maxValue + 1)];
         }
 
         /// <summary>
@@ -94,13 +94,13 @@ namespace ETool.Core.Util
             const string defaultCharList = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`~!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
 
             // 随机字符串的长度
-            int len = GetRandomInt(minLength, maxLength);
+            int len = GetRandomInt(minLength, maxLength + 1);
 
             // 生成随机字符串
             char[] resultChars = new char[len];
             for (int i = 0; i < len; i++)
             {
-                resultChars[i] = defaultCharList[GetRandomInt(0, defaultCharList.Length - 1)];
+                resultChars[i] = defaultCharList[GetRandomInt(0, defaultCharList.Length)];
             }
 
             return new string(resultChars);

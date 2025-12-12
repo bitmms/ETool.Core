@@ -49,8 +49,8 @@ namespace ETool.Core.Util
         /// <returns>模拟生成的中文用户名</returns>
         public static string MockChineseUsername()
         {
-            int idx1 = RandomUtil.GetRandomInt(0, FirstUsernameList.Count - 1);
-            int idx2 = RandomUtil.GetRandomInt(0, LastUsernameList.Count - 1);
+            int idx1 = RandomUtil.GetRandomInt(0, FirstUsernameList.Count);
+            int idx2 = RandomUtil.GetRandomInt(0, LastUsernameList.Count);
             return $"{FirstUsernameList[idx1]}的{LastUsernameList[idx2]}";
         }
 
@@ -82,9 +82,9 @@ namespace ETool.Core.Util
         /// <returns>模拟生成的中文姓名</returns>
         public static string MockChineseName()
         {
-            string first = FirstChineseNameList[RandomUtil.GetRandomInt(0, FirstChineseNameList.Count - 1)];
-            string middle = LastChineseNameList[RandomUtil.GetRandomInt(0, LastChineseNameList.Count - 1)];
-            string last = RandomUtil.GetRandomBool() ? "" : LastChineseNameList[RandomUtil.GetRandomInt(0, LastChineseNameList.Count - 1)];
+            string first = FirstChineseNameList[RandomUtil.GetRandomInt(0, FirstChineseNameList.Count)];
+            string middle = LastChineseNameList[RandomUtil.GetRandomInt(0, LastChineseNameList.Count)];
+            string last = RandomUtil.GetRandomBool() ? "" : LastChineseNameList[RandomUtil.GetRandomInt(0, LastChineseNameList.Count)];
             return first + middle + last;
         }
 
