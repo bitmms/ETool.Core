@@ -61,29 +61,22 @@ namespace ETool.Core.Util
         /// <returns>正整数相加的和</returns>
         private static string AddPositive(string n1, string n2)
         {
-            int[] arr1 = new int[n1.Length];
-            int[] arr2 = new int[n2.Length];
-            for (int i = n1.Length - 1, j = 0; i >= 0; i--, j++)
-            {
-                arr1[j] = n1[i] - '0';
-            }
+            byte[] arrA = new byte[n1.Length];
+            byte[] arrB = new byte[n2.Length];
+            for (int i = n1.Length - 1, j = 0; i >= 0; i--, j++) arrA[j] = (byte)(n1[i] - '0');
+            for (int i = n2.Length - 1, j = 0; i >= 0; i--, j++) arrB[j] = (byte)(n2[i] - '0');
 
-            for (int i = n2.Length - 1, j = 0; i >= 0; i--, j++)
-            {
-                arr2[j] = n2[i] - '0';
-            }
+            StringBuilder resultC = new StringBuilder(Math.Max(n1.Length, n2.Length) + 1);
 
-            StringBuilder resultSb = new StringBuilder(Math.Max(n1.Length, n2.Length) + 1);
-
-            for (int i = 0, carry = 0; i < arr1.Length || i < arr2.Length || carry != 0; i++)
+            for (int i = 0, carry = 0; i < arrA.Length || i < arrB.Length || carry != 0; i++)
             {
-                if (i < arr1.Length) carry += arr1[i];
-                if (i < arr2.Length) carry += arr2[i];
-                resultSb.Append(carry % 10);
+                if (i < arrA.Length) carry += arrA[i];
+                if (i < arrB.Length) carry += arrB[i];
+                resultC.Append(carry % 10);
                 carry /= 10;
             }
 
-            char[] resultChars = resultSb.ToString().ToCharArray();
+            char[] resultChars = resultC.ToString().ToCharArray();
             Array.Reverse(resultChars);
 
             return new string(resultChars);
@@ -97,30 +90,23 @@ namespace ETool.Core.Util
         /// <returns>n1 减 n2 的差值</returns>
         private static string SubPositive(string n1, string n2)
         {
-            int[] arr1 = new int[n1.Length];
-            int[] arr2 = new int[n2.Length];
-            for (int i = n1.Length - 1, j = 0; i >= 0; i--, j++)
-            {
-                arr1[j] = n1[i] - '0';
-            }
+            byte[] arrA = new byte[n1.Length];
+            byte[] arrB = new byte[n2.Length];
+            for (int i = n1.Length - 1, j = 0; i >= 0; i--, j++) arrA[j] = (byte)(n1[i] - '0');
+            for (int i = n2.Length - 1, j = 0; i >= 0; i--, j++) arrB[j] = (byte)(n2[i] - '0');
 
-            for (int i = n2.Length - 1, j = 0; i >= 0; i--, j++)
-            {
-                arr2[j] = n2[i] - '0';
-            }
+            StringBuilder resultC = new StringBuilder(n1.Length);
 
-            StringBuilder resultSb = new StringBuilder(n1.Length);
-
-            for (int i = 0, t = 0; i < arr1.Length; i++)
+            for (int i = 0, t = 0; i < arrA.Length; i++)
             {
-                t += arr1[i];
-                if (i < arr2.Length) t -= arr2[i];
-                resultSb.Append((t + 10) % 10);
+                t += arrA[i];
+                if (i < arrB.Length) t -= arrB[i];
+                resultC.Append((t + 10) % 10);
                 if (t < 0) t = -1;
                 else t = 0;
             }
 
-            char[] resultChars = resultSb.ToString().ToCharArray();
+            char[] resultChars = resultC.ToString().ToCharArray();
             Array.Reverse(resultChars);
 
             int leadingZeroCount = 0;
@@ -143,44 +129,44 @@ namespace ETool.Core.Util
         private static string MulPositive(string n1, string n2)
         {
             // 从个位到高位排序
-            int[] A = new int[n1.Length];
-            int[] B = new int[n2.Length];
-            for (int i = n1.Length - 1, j = 0; i >= 0; i--, j++) A[j] = n1[i] - '0';
-            for (int i = n2.Length - 1, j = 0; i >= 0; i--, j++) B[j] = n2[i] - '0';
+            byte[] arrA = new byte[n1.Length];
+            byte[] arrB = new byte[n2.Length];
+            for (int i = n1.Length - 1, j = 0; i >= 0; i--, j++) arrA[j] = (byte)(n1[i] - '0');
+            for (int i = n2.Length - 1, j = 0; i >= 0; i--, j++) arrB[j] = (byte)(n2[i] - '0');
 
             // 保存结果【默认值均为0】
             // 999*999 < 1000 * 1000 -->> 1 * 10e6 = 7个
-            int[] C = new int[n1.Length + n2.Length];
+            int[] resultC = new int[n1.Length + n2.Length];
 
             // 依次按位相乘，得到从个位到高位排序的结果值
             for (int i = 0; i < n1.Length; i++)
             for (int j = 0; j < n2.Length; j++)
-                C[i + j] += A[i] * B[j];
+                resultC[i + j] += arrA[i] * arrB[j];
 
             // 进位处理【不像加法需要考虑最后一位的进位，这里可以保证最大是 m+n 位】
-            for (int i = 0, t = 0; i < C.Length; i++)
+            for (int i = 0, t = 0; i < resultC.Length; i++)
             {
-                t += C[i];
-                C[i] = t % 10;
+                t += resultC[i];
+                resultC[i] = t % 10;
                 t /= 10;
             }
 
             // 反转数组
-            Array.Reverse(C);
+            Array.Reverse(resultC);
 
             // 找到第一个 0 的位置
             int leadingZeroCount = 0;
-            while (leadingZeroCount < C.Length && C[leadingZeroCount] == 0)
+            while (leadingZeroCount < resultC.Length && resultC[leadingZeroCount] == 0)
             {
                 leadingZeroCount++;
             }
 
-            if (leadingZeroCount == C.Length) return "0";
+            if (leadingZeroCount == resultC.Length) return "0";
 
             StringBuilder sb = new StringBuilder();
-            for (int i = leadingZeroCount; i < C.Length; i++)
+            for (int i = leadingZeroCount; i < resultC.Length; i++)
             {
-                sb.Append(C[i]);
+                sb.Append(resultC[i]);
             }
 
             return sb.ToString();
