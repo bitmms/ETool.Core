@@ -66,7 +66,7 @@ namespace ETool.Core.Util
         /// <param name="s2">第二个字符串</param>
         /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
         /// <returns>如果字符串相等返回 true，否则返回 false</returns>
-        public static bool Compare(string s1, string s2, bool ignoreCase = false)
+        public static bool Equals(string s1, string s2, bool ignoreCase = false)
         {
             if (IsNull(s1) && IsNull(s2))
             {
