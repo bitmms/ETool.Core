@@ -795,5 +795,30 @@ namespace ETool.Core.Util
         {
             return JoinStrings(items, sep.ToString(), skipNull, nullReplacement);
         }
+
+        /// <summary>
+        /// 移除字符串中全部的换行符【"\r\n"，"\n"，"\r"】
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <returns>移除全部换行符后的字符串</returns>
+        public static string RemoveAllNewLines(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return "";
+            }
+
+            var idx = 0;
+            var resultChars = new char[str.Length];
+            foreach (var c in str)
+            {
+                if (c != '\r' && c != '\n')
+                {
+                    resultChars[idx++] = c;
+                }
+            }
+
+            return new string(resultChars, 0, idx);
+        }
     }
 }
