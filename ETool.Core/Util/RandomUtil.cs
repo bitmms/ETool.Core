@@ -30,6 +30,11 @@ namespace ETool.Core.Util
         /// <returns>一个随机整数</returns>
         public static int GetRandomInt(int minValue, int maxValue)
         {
+            if (minValue == maxValue)
+            {
+                return minValue;
+            }
+
             NumberUtil.SwapIfFirstLarger(ref minValue, ref maxValue);
 
             return GetRandom().Next(minValue, maxValue);
