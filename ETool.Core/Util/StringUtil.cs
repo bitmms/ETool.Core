@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace ETool.Core.Util
 {
@@ -730,6 +732,55 @@ namespace ETool.Core.Util
             }
 
             return sourceString;
+        }
+
+        /// <summary>
+        /// 字符串集合转字符串
+        /// </summary>
+        /// <param name="items">待连接的字符串集合</param>
+        /// <param name="sep">用于连接各元素的分隔符</param>
+        /// <param name="skipNull">是否跳过集合中的 null 元素</param>
+        /// <param name="nullReplacement">当不跳过 null 时，用此字符串代替 null</param>
+        /// <returns>拼接后的字符串</returns>
+        public static string JoinStrings(IEnumerable<string> items, string sep, bool skipNull = true, string nullReplacement = "null")
+        {
+            if (items == null)
+            {
+                return "";
+            }
+
+            if (!skipNull && IsNull(nullReplacement))
+            {
+                nullReplacement = "null";
+            }
+
+            if (sep == null)
+            {
+                sep = "";
+            }
+
+            bool isFirstItem = true;
+            StringBuilder sb = new StringBuilder();
+            foreach (string item in items)
+            {
+                if (IsNull(item) && skipNull)
+                {
+                    continue;
+                }
+
+                if (isFirstItem)
+                {
+                    isFirstItem = false;
+                }
+                else
+                {
+                    sb.Append(sep);
+                }
+
+                sb.Append(IsNull(item) ? nullReplacement : item);
+            }
+
+            return sb.ToString();
         }
     }
 }
