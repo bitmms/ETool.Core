@@ -820,5 +820,30 @@ namespace ETool.Core.Util
 
             return new string(resultChars, 0, idx);
         }
+
+        /// <summary>
+        /// 移除字符串中全部的空白字符
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <returns>移除全部空白字符后的字符串</returns>
+        public static string RemoveAllWhitespace(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return "";
+            }
+
+            int idx = 0;
+            var resultChars = new char[str.Length];
+            foreach (char c in str)
+            {
+                if (!char.IsWhiteSpace(c))
+                {
+                    resultChars[idx++] = c;
+                }
+            }
+
+            return new string(resultChars, 0, idx);
+        }
     }
 }
