@@ -139,11 +139,51 @@ namespace ETool.Core.Util
         /// </summary>
         /// <param name="n1">第一个正整数</param>
         /// <param name="n2">第二个正整数</param>
-        /// <returns>n1 减 n2 的差值</returns>
+        /// <returns>n1 减 n2 的乘积</returns>
         private static string MulPositive(string n1, string n2)
         {
-            // TODO 正整数相乘
-            return "";
+            // 从个位到高位排序
+            int[] A = new int[n1.Length];
+            int[] B = new int[n2.Length];
+            for (int i = n1.Length - 1, j = 0; i >= 0; i--, j++) A[j] = n1[i] - '0';
+            for (int i = n2.Length - 1, j = 0; i >= 0; i--, j++) B[j] = n2[i] - '0';
+
+            // 保存结果【默认值均为0】
+            // 999*999 < 1000 * 1000 -->> 1 * 10e6 = 7个
+            int[] C = new int[n1.Length + n2.Length];
+
+            // 依次按位相乘，得到从个位到高位排序的结果值
+            for (int i = 0; i < n1.Length; i++)
+            for (int j = 0; j < n2.Length; j++)
+                C[i + j] += A[i] * B[j];
+
+            // 进位处理【不像加法需要考虑最后一位的进位，这里可以保证最大是 m+n 位】
+            for (int i = 0, t = 0; i < C.Length; i++)
+            {
+                t += C[i];
+                C[i] = t % 10;
+                t /= 10;
+            }
+
+            // 反转数组
+            Array.Reverse(C);
+
+            // 找到第一个 0 的位置
+            int leadingZeroCount = 0;
+            while (leadingZeroCount < C.Length && C[leadingZeroCount] == 0)
+            {
+                leadingZeroCount++;
+            }
+
+            if (leadingZeroCount == C.Length) return "0";
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = leadingZeroCount; i < C.Length; i++)
+            {
+                sb.Append(C[i]);
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
