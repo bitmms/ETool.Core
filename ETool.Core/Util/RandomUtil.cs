@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace ETool.Core.Util
@@ -150,6 +151,23 @@ namespace ETool.Core.Util
 
             // 其他情况：返回全 0 GUID 字符串
             return "00000000-0000-0000-0000-000000000000";
+        }
+
+        /// <summary>
+        /// 从指定集合中随机选取一个元素。
+        /// </summary>
+        /// <typeparam name="T">元素类型</typeparam>
+        /// <param name="items">要从中选取的集合（支持数组、List 等）</param>
+        /// <param name="defaultValue">当集合为 null 或空时返回的默认值</param>
+        /// <returns>随机选中的元素，或 defaultValue</returns>
+        public static T GetRandomItem<T>(IList<T> items, T defaultValue)
+        {
+            if (items == null || items.Count == 0)
+            {
+                return defaultValue;
+            }
+
+            return items[GetRandomInt(0, items.Count)];
         }
     }
 }
