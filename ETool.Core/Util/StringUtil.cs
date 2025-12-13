@@ -137,6 +137,17 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 将 Unicode 字符集的字符串转换为 GBK 编码的字节数组（基于 GBK 字符集映射）
+        /// </summary>
+        /// <param name="s">入参字符串</param>
+        /// <returns>字节数组</returns>
+        public static byte[] GetGbkBytes(string s)
+        {
+            if (IsNullOrEmpty(s)) return Array.Empty<byte>();
+            return Encoding.GetEncoding("GBK").GetBytes(s);
+        }
+
+        /// <summary>
         /// 将字符串中的小写英文字符转大写
         /// </summary>
         /// <param name="s">待转换的字符串</param>
