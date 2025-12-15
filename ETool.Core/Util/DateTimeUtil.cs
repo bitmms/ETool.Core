@@ -1,9 +1,27 @@
-﻿namespace ETool.Core.Util
+﻿using System;
+using System.Globalization;
+
+namespace ETool.Core.Util
 {
     /// <summary>
     /// 日期时间工具类
     /// </summary>
     public static class DateTimeUtil
     {
+        /// <summary>
+        /// 判断指定字符串是否符合指定格式的日期时间字符串
+        /// </summary>
+        /// <param name="s">待校验的字符串</param>
+        /// <param name="format">格式</param>
+        /// <returns>如果字符串符合返回 true，否则返回 false</returns>
+        public static bool IsValidDateTime(string s, string format)
+        {
+            if (string.IsNullOrEmpty(s) || string.IsNullOrEmpty(format))
+            {
+                return false;
+            }
+
+            return DateTime.TryParseExact(s, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
+        }
     }
 }
