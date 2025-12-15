@@ -23,5 +23,22 @@ namespace ETool.Core.Util
 
             return DateTime.TryParseExact(s, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
         }
+
+        /// <summary>
+        /// 判断 DateTime 是否在指定的起止日期时间内（包含边界）
+        /// </summary>
+        /// <param name="dt">要判断的日期时间</param>
+        /// <param name="start">开始日期时间</param>
+        /// <param name="end">结束日期时间</param>
+        /// <returns>如果指定日期时间在指定的起止日期时间范围内，返回 true；否则返回 false</returns>
+        public static bool BetweenDateTime(DateTime dt, DateTime start, DateTime end)
+        {
+            if (start > end)
+            {
+                (start, end) = (end, start);
+            }
+
+            return dt >= start && dt <= end;
+        }
     }
 }
