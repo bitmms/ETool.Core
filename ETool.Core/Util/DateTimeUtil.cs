@@ -40,5 +40,22 @@ namespace ETool.Core.Util
 
             return dt >= start && dt <= end;
         }
+        
+        /// <summary>
+        /// 判断 DateTime 是否在指定的起止日期内（包含边界）
+        /// </summary>
+        /// <param name="dt">要判断的日期</param>
+        /// <param name="start">开始日期</param>
+        /// <param name="end">结束日期</param>
+        /// <returns>如果指定日期在指定的起止日期范围内，返回 true；否则返回 false</returns>
+        public static bool BetweenDate(DateTime dt, DateTime start, DateTime end)
+        {
+            if (start > end)
+            {
+                (start, end) = (end, start);
+            }
+
+            return dt.Date >= start.Date && dt.Date <= end.Date;
+        }
     }
 }
