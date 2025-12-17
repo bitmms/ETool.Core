@@ -123,5 +123,29 @@ namespace ETool.Core.Util
             // 出生日期格式校验：假定拥有 15 位身份证号码的人的出生日期为：1900-01-01 到 1999-12-31 之间
             return DateTime.TryParseExact("19" + s.Substring(6, 6), "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
         }
+
+        /// <summary>
+        /// 检验指定字符串是否符合中国身份证号码的格式规范【兼容15、18位身份证号码】
+        /// </summary>
+        /// <param name="s">待校验的字符串</param>
+        /// <returns>如果字符串符合返回 true，否则返回 false</returns>
+        /// <remarks>注意：格式正确 ≠ 身份真实</remarks>
+        public static bool IsValidChinaIdCard(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return false;
+            }
+
+            switch (s.Length)
+            {
+                case 18:
+                    return IsValidChinaIdCard18(s);
+                case 15:
+                    return IsValidChinaIdCard15(s);
+                default:
+                    return false;
+            }
+        }
     }
 }
