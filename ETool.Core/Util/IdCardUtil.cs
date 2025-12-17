@@ -245,5 +245,15 @@ namespace ETool.Core.Util
 
             return (s[s.Length == 18 ? 16 : 14] - '0') % 2 == 1 ? 1 : 0;
         }
+
+        /// <summary>
+        /// 根据身份证号码获取对应的省级编码【兼容15、18位身份证号码】
+        /// </summary>
+        /// <param name="s">身份证号码</param>
+        /// <returns>合法则返回省级编码，非法返回空</returns>
+        public static string GetProvinceCode(string s)
+        {
+            return !IsValidChinaIdCard(s) ? "" : s.Substring(0, 2);
+        }
     }
 }
