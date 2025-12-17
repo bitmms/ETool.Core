@@ -127,8 +127,10 @@ namespace ETool.Core.Util
                 return false;
             }
 
-            // 合理出生日期范围：假定拥有 18 位身份证号码的人的出生日期为：1900-01-01 ~ Today + 1
-            if (datetime < new DateTime(1900, 1, 1) || datetime > DateTime.Today.AddDays(1))
+            // 合理出生日期范围，这里有以下假定：
+            //  1. 拥有 18 位身份证号码人群的出生日期从 1900-01-01 开始
+            //  2. 办理 18 位身份证号码的最早时间是出生当天
+            if (datetime < new DateTime(1900, 1, 1) || datetime > DateTime.Today)
             {
                 return false;
             }
