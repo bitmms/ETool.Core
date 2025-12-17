@@ -210,5 +210,20 @@ namespace ETool.Core.Util
 
             return (s[10] - '0') * 10 + (s[11] - '0');
         }
+
+        /// <summary>
+        /// 根据身份证号码获取对应的性别【兼容15、18位身份证号码】
+        /// </summary>
+        /// <param name="s">身份证号码</param>
+        /// <returns>男性：1，女性：0，非法：-1</returns>
+        public static int GetGender(string s)
+        {
+            if (!IsValidChinaIdCard(s))
+            {
+                return -1;
+            }
+
+            return (s[s.Length == 18 ? 16 : 14] - '0') % 2 == 1 ? 1 : 0;
+        }
     }
 }
