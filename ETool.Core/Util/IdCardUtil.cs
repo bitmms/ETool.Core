@@ -32,6 +32,56 @@ namespace ETool.Core.Util
         // 15位身份证有效省份编码（仅大陆，无港澳台）
         private static readonly HashSet<string> Valid15IdProvinceCodes = MainlandProvinceCodes;
 
+        /// <summary>
+        /// 身份证前两位省级编码到中文名称的映射（仅中国大陆）
+        /// </summary>
+        private static readonly Dictionary<string, string> ProvinceCodeToName = new Dictionary<string, string>
+        {
+            // 华北
+            { "11", "北京市" },
+            { "12", "天津市" },
+            { "13", "河北省" },
+            { "14", "山西省" },
+            { "15", "内蒙古自治区" },
+            // 东北
+            { "21", "辽宁省" },
+            { "22", "吉林省" },
+            { "23", "黑龙江省" },
+            // 华东
+            { "31", "上海市" },
+            { "32", "江苏省" },
+            { "33", "浙江省" },
+            { "34", "安徽省" },
+            { "35", "福建省" },
+            { "36", "江西省" },
+            { "37", "山东省" },
+            // 华南
+            { "41", "河南省" },
+            { "42", "湖北省" },
+            { "43", "湖南省" },
+            { "44", "广东省" },
+            { "45", "广西壮族自治区" },
+            { "46", "海南省" },
+            // 西南
+            { "50", "重庆市" },
+            { "51", "四川省" },
+            { "52", "贵州省" },
+            { "53", "云南省" },
+            { "54", "西藏自治区" },
+
+            // 西北
+            { "61", "陕西省" },
+            { "62", "甘肃省" },
+            { "63", "青海省" },
+            { "64", "宁夏回族自治区" },
+            { "65", "新疆维吾尔自治区" },
+
+            // 港澳台
+            { "71", "台湾省" },
+            { "81", "香港特别行政区" },
+            { "82", "澳门特别行政区" }
+        };
+
         // 加权因子（18位身份证前17位的加权系数）
         private static readonly int[] CheckWeights = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
 
@@ -254,6 +304,16 @@ namespace ETool.Core.Util
         public static string GetProvinceCode(string s)
         {
             return !IsValidChinaIdCard(s) ? "" : s.Substring(0, 2);
+        }
+
+        /// <summary>
+        /// 根据身份证号码获取对应的省级名称【兼容15、18位身份证号码】
+        /// </summary>
+        /// <param name="s">身份证号码</param>
+        /// <returns>合法则返回省级名称，非法返回空</returns>
+        public static string GetProvinceName(string s)
+        {
+            return !IsValidChinaIdCard(s) ? "" : ProvinceCodeToName[s.Substring(0, 2)];
         }
     }
 }
