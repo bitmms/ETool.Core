@@ -147,5 +147,28 @@ namespace ETool.Core.Util
                     return false;
             }
         }
+
+        /// <summary>
+        /// 根据身份证号码获取对应的出生日期（年）【兼容15、18位身份证号码】
+        /// </summary>
+        /// <param name="s">身份证号码</param>
+        /// <returns>合法则返回出生日期（1900-9999），非法返回-1</returns>
+        public static int GetBirthdayYear(string s)
+        {
+            if (!IsValidChinaIdCard(s))
+            {
+                return -1;
+            }
+
+            if (s.Length == 18)
+            {
+                return (s[6] - '0') * 1000 +
+                       (s[7] - '0') * 100 +
+                       (s[8] - '0') * 10 +
+                       (s[9] - '0');
+            }
+
+            return 1900 + (s[6] - '0') * 10 + (s[7] - '0');
+        }
     }
 }
