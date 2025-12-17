@@ -29,6 +29,9 @@ namespace ETool.Core.Util
             "82", // 澳门
         };
 
+        // 15位身份证有效省份编码（仅大陆，无港澳台）
+        private static readonly HashSet<string> Valid15IdProvinceCodes = MainlandProvinceCodes;
+
         // 加权因子（18位身份证前17位的加权系数）
         private static readonly int[] CheckWeights = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
 
@@ -88,6 +91,37 @@ namespace ETool.Core.Util
             }
 
             return CheckCodes[sum % 11] == CharUtil.ToUpperLetter(s[17]);
+        }
+
+        /// <summary>
+        /// 检验指定字符串是否符合中国 15 位身份证的格式规范
+        /// </summary>
+        /// <param name="s">待校验的字符串</param>
+        /// <returns>如果字符串符合返回 true，否则返回 false</returns>
+        public static bool IsValidChinaIdCard15(string s)
+        {
+            if (string.IsNullOrEmpty(s) || s.Length != 15)
+            {
+                return false;
+            }
+
+            // 必须是数字
+            foreach (var c in s)
+            {
+                if (c < '0' || c > '9')
+                {
+                    return false;
+                }
+            }
+
+            // 省份码校验
+            if (!Valid15IdProvinceCodes.Contains(s.Substring(0, 2)))
+            {
+                return false;
+            }
+
+            // 出生日期格式校验：假定拥有 15 位身份证号码的人的出生日期为：1900-01-01 到 1999-12-31 之间
+            return DateTime.TryParseExact("19" + s.Substring(6, 6), "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
         }
     }
 }
