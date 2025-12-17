@@ -199,6 +199,29 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 将身份证号码转化为 15 位
+        /// </summary>
+        /// <param name="s">待转换的字符串</param>
+        /// <returns>如果字符串符合身份证号码格式规范返回 15 位身份证号码，否则返回空</returns>
+        /// <remarks>
+        /// 注意：自从 2000 年出生的人无法使用 15 位身份证号码正确表示出生日期，这里仅做 “格式转换”
+        /// </remarks>
+        public static string ToIdCard15(string s)
+        {
+            if (!IsValidChinaIdCard(s))
+            {
+                return "";
+            }
+
+            if (s.Length == 15)
+            {
+                return s;
+            }
+
+            return s.Substring(0, 6) + s.Substring(8, 9);
+        }
+
+        /// <summary>
         /// 根据身份证号码获取对应的出生日期（年）【兼容15、18位身份证号码】
         /// </summary>
         /// <param name="s">身份证号码</param>
