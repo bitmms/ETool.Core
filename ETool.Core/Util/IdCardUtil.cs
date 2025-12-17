@@ -425,6 +425,29 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 身份证号码脱敏处理【兼容15、18位身份证号码】
+        /// </summary>
+        /// <param name="idCard">待脱敏的身份证号码字符串</param>
+        /// <param name="start">起始索引</param>
+        /// <param name="count">替换的数量</param>
+        /// <param name="maskChar">用于替换的填充字符</param>
+        /// <returns>脱敏后的字符串</returns>
+        public static string Mask(string idCard, int start, int count, char maskChar = '*')
+        {
+            if (StringUtil.IsNull(idCard))
+            {
+                return "";
+            }
+
+            if (!IsValidChinaIdCard(idCard))
+            {
+                return idCard;
+            }
+
+            return StringUtil.ReplaceRangeWithChar(idCard, start, count, maskChar);
+        }
+
+        /// <summary>
         /// 根据身份证号码获取身份证信息对象 IdCardInfo
         /// </summary>
         /// <param name="s">身份证号码</param>
