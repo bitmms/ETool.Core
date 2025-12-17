@@ -212,6 +212,26 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 根据身份证号码获取对应的出生日期（年月日）【兼容15、18位身份证号码】
+        /// </summary>
+        /// <param name="s">身份证号码</param>
+        /// <returns>合法则返回出生日期（yyyyMMdd），非法返回空</returns>
+        public static string GetBirthday(string s)
+        {
+            if (!IsValidChinaIdCard(s))
+            {
+                return "";
+            }
+
+            if (s.Length == 18)
+            {
+                return s.Substring(6, 8);
+            }
+
+            return "19" + s.Substring(6, 6);
+        }
+
+        /// <summary>
         /// 根据身份证号码获取对应的性别【兼容15、18位身份证号码】
         /// </summary>
         /// <param name="s">身份证号码</param>
