@@ -349,6 +349,41 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 根据身份证号码获取对应的年龄【兼容15、18位身份证号码】
+        /// </summary>
+        /// <param name="s">身份证号码</param>
+        /// <returns>合法返回年龄，否则返回 -1</returns>
+        public static int GetAge(string s)
+        {
+            if (!IsValidChinaIdCard(s))
+            {
+                return -1;
+            }
+
+            // 只要身份证号码合法，这里的参数一定合法【1900-01-01<= XXX <= DateTime.Today】
+            var year = GetBirthdayYear(s);
+            var month = GetBirthdayMonth(s);
+            var day = GetBirthdayDay(s);
+            var todayDateTime = DateTime.Today;
+
+            if (year == todayDateTime.Year)
+            {
+                return 0;
+            }
+
+            // 这里 age >= 1
+            var age = todayDateTime.Year - year;
+
+            // 如果今年生日还没到，减一岁
+            if (todayDateTime.Month < month || (todayDateTime.Month == month && todayDateTime.Day < day))
+            {
+                age--;
+            }
+
+            return age;
+        }
+
+        /// <summary>
         /// 根据身份证号码获取对应的省级编码【兼容15、18位身份证号码】
         /// </summary>
         /// <param name="s">身份证号码</param>
