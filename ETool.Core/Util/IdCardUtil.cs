@@ -222,6 +222,33 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 将身份证号码转化为 18 位
+        /// </summary>
+        /// <param name="s">待转换的字符串</param>
+        /// <returns>如果字符串符合身份证号码格式规范返回 18 位身份证号码，否则返回空</returns>
+        public static string ToIdCard18(string s)
+        {
+            if (!IsValidChinaIdCard(s))
+            {
+                return "";
+            }
+
+            if (s.Length == 18)
+            {
+                return s;
+            }
+
+            var idCard17 = s.Substring(0, 6) + "19" + s.Substring(6, 9);
+            var sum = 0;
+            for (var i = 0; i < 17; i++)
+            {
+                sum += (idCard17[i] - '0') * CheckWeights[i];
+            }
+
+            return idCard17 + CheckCodes[sum % 11];
+        }
+
+        /// <summary>
         /// 根据身份证号码获取对应的出生日期（年）【兼容15、18位身份证号码】
         /// </summary>
         /// <param name="s">身份证号码</param>
