@@ -352,7 +352,14 @@ namespace ETool.Core.Util
         /// 根据身份证号码获取对应的年龄【兼容15、18位身份证号码】
         /// </summary>
         /// <param name="s">身份证号码</param>
-        /// <returns>合法返回年龄，否则返回 -1</returns>
+        /// <returns>合法返回年龄（中国法定周岁），否则返回 -1</returns>
+        /// <remarks>
+        /// <para>1. 生日当天即满对应周岁</para>
+        /// <para>2. 特殊场景：闰年2月29日出生者，平年以2月28日为生日（实务通用规则）</para>
+        /// <para>3. 示例1：2005-01-01 出生，2006-01-01 为 1 周岁，2006-01-02 为 1 周岁</para>
+        /// <para>4. 示例2：1996-02-29 出生，1997-02-28 为 1 周岁，1997-03-01 为 1 周岁</para>
+        /// <para>5. 示例3：1996-02-29 出生，2000-02-28 为 3 周岁，2000-02-29 为 4 周岁，2000-03-01 为 4 周岁</para>
+        /// </remarks>
         public static int GetAge(string s)
         {
             if (!IsValidChinaIdCard(s))
@@ -360,22 +367,36 @@ namespace ETool.Core.Util
                 return -1;
             }
 
-            // 只要身份证号码合法，这里的参数一定合法【1900-01-01<= XXX <= DateTime.Today】
-            var year = GetBirthdayYear(s);
-            var month = GetBirthdayMonth(s);
-            var day = GetBirthdayDay(s);
-            var todayDateTime = DateTime.Today;
+            // 提取身份证中的出生年月日（已校验合法，范围：1900-01-01 至 当前日期）
+            var birthYear = GetBirthdayYear(s);
+            var birthMonth = GetBirthdayMonth(s);
+            var birthDay = GetBirthdayDay(s);
+            var today = DateTime.Today;
 
-            if (year == todayDateTime.Year)
+            // 本年出生：无论哪天出生，年龄均为0
+            if (birthYear == today.Year)
             {
                 return 0;
             }
 
-            // 这里 age >= 1
-            var age = todayDateTime.Year - year;
+            // 基础年龄 = 当前年 - 出生年（此时基础年龄≥1）
+            var age = today.Year - birthYear;
 
-            // 如果今年生日还没到，减一岁
-            if (todayDateTime.Month < month || (todayDateTime.Month == month && todayDateTime.Day < day))
+            // 核心判断：生日是否已过
+            bool isBirthdayPassed;
+            // 场景1：出生日是闰年2月29日，且当前是平年的2月28日 → 视为生日已过
+            if (birthMonth == 2 && birthDay == 29 && !DateTime.IsLeapYear(today.Year) && today.Month == 2 && today.Day == 28)
+            {
+                isBirthdayPassed = true;
+            }
+            // 场景2：普通日期判断（月份更大，或月份相同且日期≥生日）
+            else
+            {
+                isBirthdayPassed = today.Month > birthMonth || (today.Month == birthMonth && today.Day >= birthDay);
+            }
+
+            // 生日未过，年龄减1
+            if (!isBirthdayPassed)
             {
                 age--;
             }
