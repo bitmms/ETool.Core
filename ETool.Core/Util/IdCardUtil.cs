@@ -365,5 +365,94 @@ namespace ETool.Core.Util
         {
             return !IsValidChinaIdCard(s) ? "" : ProvinceCodeToName[s.Substring(0, 2)];
         }
+
+        /// <summary>
+        /// 根据身份证号码获取身份证信息对象 IdCardInfo
+        /// </summary>
+        /// <param name="s">身份证号码</param>
+        /// <returns>身份证信息对象 IdCardInfo；若输入无效，返回 IsValid=false 的默认实例</returns>
+        public static IdCardInfo GetIdCardInfo(string s)
+        {
+            if (!IsValidChinaIdCard(s))
+            {
+                return new IdCardInfo();
+            }
+
+            return new IdCardInfo
+            {
+                IdCard = s,
+                IsValid = true,
+                IdCard15 = ToIdCard15(s),
+                IdCard18 = ToIdCard18(s),
+                Birthday = GetBirthday(s),
+                BirthdayYear = GetBirthdayYear(s),
+                BirthdayMonth = GetBirthdayMonth(s),
+                BirthdayDay = GetBirthdayDay(s),
+                Gender = GetGender(s),
+                ProvinceCode = GetProvinceCode(s),
+                ProvinceName = GetProvinceName(s)
+            };
+        }
+
+        /// <summary>
+        /// 身份证信息封装类
+        /// </summary>
+        public class IdCardInfo
+        {
+            /// <summary>
+            /// 身份证号码（原始输入）
+            /// </summary>
+            public string IdCard { get; set; } = "";
+
+            /// <summary>
+            /// 身份证号码（15位）
+            /// </summary>
+            public string IdCard15 { get; set; } = "";
+
+            /// <summary>
+            /// 身份证号码（18位）
+            /// </summary>
+            public string IdCard18 { get; set; } = "";
+
+            /// <summary>
+            /// 是否为合法身份证号码
+            /// </summary>
+            public bool IsValid { get; set; } = false;
+
+            /// <summary>
+            /// 出生年份（1900-9999），非法时为 -1
+            /// </summary>
+            public int BirthdayYear { get; set; } = -1;
+
+            /// <summary>
+            /// 出生月份（1-12），非法时为 -1
+            /// </summary>
+            public int BirthdayMonth { get; set; } = -1;
+
+            /// <summary>
+            /// 出生日（1-31），非法时为 -1
+            /// </summary>
+            public int BirthdayDay { get; set; } = -1;
+
+            /// <summary>
+            /// 完整出生日期字符串（yyyyMMdd），如 "19900101"；非法时为空
+            /// </summary>
+            public string Birthday { get; set; } = "";
+
+            /// <summary>
+            /// 性别：1=男，0=女，-1=未知/非法
+            /// </summary>
+            public int Gender { get; set; } = -1;
+
+            /// <summary>
+            /// 省级行政区编码（前两位），非法时为空
+            /// </summary>
+            public string ProvinceCode { get; set; } = "";
+
+            /// <summary>
+            /// 省级行政区名称，如 "北京市"；非法时为空
+            /// </summary>
+            public string ProvinceName { get; set; } = "";
+        }
     }
 }
