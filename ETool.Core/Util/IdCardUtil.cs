@@ -426,6 +426,7 @@ namespace ETool.Core.Util
                 BirthdayMonth = GetBirthdayMonth(s),
                 BirthdayDay = GetBirthdayDay(s),
                 Gender = GetGender(s),
+                Age = GetAge(s),
                 ProvinceCode = GetProvinceCode(s),
                 ProvinceName = GetProvinceName(s)
             };
@@ -480,6 +481,11 @@ namespace ETool.Core.Util
             /// 性别：1=男，0=女，-1=未知/非法
             /// </summary>
             public int Gender { get; set; } = -1;
+
+            /// <summary>
+            /// 年龄：合法age>=0，非法age=-1
+            /// </summary>
+            public int Age { get; set; } = -1;
 
             /// <summary>
             /// 省级行政区编码（前两位），非法时为空
