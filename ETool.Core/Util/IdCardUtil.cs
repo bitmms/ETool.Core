@@ -170,5 +170,25 @@ namespace ETool.Core.Util
 
             return 1900 + (s[6] - '0') * 10 + (s[7] - '0');
         }
+
+        /// <summary>
+        /// 根据身份证号码获取对应的出生日期（月）【兼容15、18位身份证号码】
+        /// </summary>
+        /// <param name="s">身份证号码</param>
+        /// <returns>合法则返回出生日期（1-12），非法返回-1</returns>
+        public static int GetBirthdayMonth(string s)
+        {
+            if (!IsValidChinaIdCard(s))
+            {
+                return -1;
+            }
+
+            if (s.Length == 18)
+            {
+                return (s[10] - '0') * 10 + (s[11] - '0');
+            }
+
+            return (s[8] - '0') * 10 + (s[9] - '0');
+        }
     }
 }
