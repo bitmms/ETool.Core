@@ -1108,5 +1108,43 @@ namespace ETool.Core.Util
             s.CopyTo(index + 1, resultChars, index + 1, s.Length - index - 1);
             return new string(resultChars);
         }
+
+        /// <summary>
+        /// 替换字符串中所有匹配的字符为指定字符
+        /// </summary>
+        /// <param name="s">源字符串</param>
+        /// <param name="sourceChar">被替换的源字符</param>
+        /// <param name="targetChar">用于替换的目标字符</param>
+        /// <param name="ignoreCase">是否忽略大小写（仅对英文字母 a-z / A-Z 生效）</param>
+        /// <returns>替换后的新字符串</returns>
+        public static string ReplaceAllChar(string s, char sourceChar, char targetChar, bool ignoreCase = false)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+
+            // 只有英文字母才有大小写之分
+            if (!ignoreCase || !CharUtil.IsLetter(sourceChar))
+            {
+                return s.Replace(sourceChar, targetChar);
+            }
+
+            var sourceUpperChar = CharUtil.ToUpperLetter(sourceChar);
+            var resultChars = new char[s.Length];
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (CharUtil.ToUpperLetter(s[i]) == sourceUpperChar)
+                {
+                    resultChars[i] = targetChar;
+                }
+                else
+                {
+                    resultChars[i] = s[i];
+                }
+            }
+
+            return new string(resultChars);
+        }
     }
 }
