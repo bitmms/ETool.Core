@@ -348,5 +348,121 @@ namespace ETool.Core.Util
             // n1<0, n2<0
             return MulPositive(n1.Substring(1), n2.Substring(1));
         }
+
+        #region 奇偶判断
+
+        /// <summary>
+        /// 检查是否为奇数【有符号，8位，Int8】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是奇数</returns>
+        public static bool IsOdd(sbyte n) => (n & 1) == 1;
+
+        /// <summary>
+        /// 检查是否为偶数【有符号，8位，Int8】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是偶数</returns>
+        public static bool IsEven(sbyte n) => (n & 1) == 0;
+
+        /// <summary>
+        /// 检查是否为奇数【有符号，16位，Int16】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是奇数</returns>
+        public static bool IsOdd(short n) => (n & 1) == 1;
+
+        /// <summary>
+        /// 检查是否为偶数【有符号，16位，Int16】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是偶数</returns>
+        public static bool IsEven(short n) => (n & 1) == 0;
+
+        /// <summary>
+        /// 检查是否为奇数【有符号，32位，Int32】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是奇数</returns>
+        public static bool IsOdd(int n) => (n & 1) == 1;
+
+        /// <summary>
+        /// 检查是否为偶数【有符号，32位，Int32】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是偶数</returns>
+        public static bool IsEven(int n) => (n & 1) == 0;
+
+        /// <summary>
+        /// 检查是否为奇数【有符号，64位，Int64】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是奇数</returns>
+        public static bool IsOdd(long n) => (n & 1L) == 1L;
+
+        /// <summary>
+        /// 检查是否为偶数【有符号，64位，Int64】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是偶数</returns>
+        public static bool IsEven(long n) => (n & 1L) == 0L;
+
+        /// <summary>
+        /// 检查是否为奇数【无符号，8位，UInt8】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是奇数</returns>
+        public static bool IsOdd(byte n) => (n & 1) == 1;
+
+        /// <summary>
+        /// 检查是否为偶数【无符号，8位，UInt8】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是偶数</returns>
+        public static bool IsEven(byte n) => (n & 1) == 0;
+
+        /// <summary>
+        /// 检查是否为奇数【无符号，16位，UInt16】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是奇数</returns>
+        public static bool IsOdd(ushort n) => (n & 1) == 1;
+
+        /// <summary>
+        /// 检查是否为偶数【无符号，16位，UInt16】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是偶数</returns>
+        public static bool IsEven(ushort n) => (n & 1) == 0;
+
+        /// <summary>
+        /// 检查是否为奇数【无符号，32位，UInt32】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是奇数</returns>
+        public static bool IsOdd(uint n) => (n & 1U) == 1U;
+
+        /// <summary>
+        /// 检查是否为偶数【无符号，32位，UInt32】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是偶数</returns>
+        public static bool IsEven(uint n) => (n & 1U) == 0U;
+
+        /// <summary>
+        /// 检查是否为奇数【无符号，64位，UInt64】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是奇数</returns>
+        public static bool IsOdd(ulong n) => (n & 1UL) == 1UL;
+
+        /// <summary>
+        /// 检查是否为偶数【无符号，64位，UInt64】
+        /// </summary>
+        /// <param name="n">被判断的数值</param>
+        /// <returns>是否是偶数</returns>
+        public static bool IsEven(ulong n) => (n & 1UL) == 0UL;
+
+        #endregion
     }
 }
