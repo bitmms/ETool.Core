@@ -434,7 +434,7 @@ namespace ETool.Core.Util
         /// <returns>脱敏后的字符串</returns>
         public static string Mask(string idCard, int start, int count, char maskChar = '*')
         {
-            if (StringUtil.IsNull(idCard))
+            if (StrUtil.IsNull(idCard))
             {
                 return "";
             }
@@ -444,7 +444,7 @@ namespace ETool.Core.Util
                 return idCard;
             }
 
-            return StringUtil.ReplaceRangeWithChar(idCard, start, count, maskChar);
+            return StrUtil.ReplaceRangeWithChar(idCard, start, count, maskChar);
         }
 
         /// <summary>

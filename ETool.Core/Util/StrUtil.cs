@@ -7,7 +7,7 @@ namespace ETool.Core.Util
     /// <summary>
     /// 字符串工具类
     /// </summary>
-    public static class StringUtil
+    public static class StrUtil
     {
         /// <summary>
         /// 判断指定字符串是否为 null

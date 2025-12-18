@@ -13,14 +13,14 @@
         /// <returns>脱敏后的字符串</returns>
         public static string MaskPhoneNumber(string phoneNumber, char maskChar = '*')
         {
-            if (StringUtil.IsNull(phoneNumber))
+            if (StrUtil.IsNull(phoneNumber))
             {
                 return "";
             }
 
             if (ValidatorUtil.IsValidPhoneNumber(phoneNumber))
             {
-                return StringUtil.ReplaceRangeWithChar(phoneNumber, 3, 4, maskChar);
+                return StrUtil.ReplaceRangeWithChar(phoneNumber, 3, 4, maskChar);
             }
 
             return phoneNumber;
@@ -34,7 +34,7 @@
         /// <returns>脱敏后的字符串</returns>
         public static string MaskIdCard(string idCard, char maskChar = '*')
         {
-            if (StringUtil.IsNull(idCard))
+            if (StrUtil.IsNull(idCard))
             {
                 return "";
             }
@@ -46,10 +46,10 @@
 
             if (idCard.Length == 18)
             {
-                return StringUtil.ReplaceRangeWithChar(idCard, 3, 12, maskChar);
+                return StrUtil.ReplaceRangeWithChar(idCard, 3, 12, maskChar);
             }
 
-            return StringUtil.ReplaceRangeWithChar(idCard, 3, 9, maskChar);
+            return StrUtil.ReplaceRangeWithChar(idCard, 3, 9, maskChar);
         }
     }
 }

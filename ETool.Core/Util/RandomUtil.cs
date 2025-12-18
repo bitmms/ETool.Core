@@ -132,7 +132,7 @@ namespace ETool.Core.Util
             }
 
             // 小写 -> 大写
-            format = StringUtil.ToUpperLetter(format);
+            format = StrUtil.ToUpperLetter(format);
 
             // 合法 GUID 格式符集合
             const string roleString = "DNBPX";
@@ -140,7 +140,7 @@ namespace ETool.Core.Util
             // 双字符规则：相同且为 DNBPX 中任意一个 → 返回大写 GUID 字符串
             if (format.Length == 2 && format[0] == format[1] && roleString.Contains(format[0].ToString()))
             {
-                return StringUtil.ToUpperLetter(Guid.NewGuid().ToString(format[0].ToString()));
+                return StrUtil.ToUpperLetter(Guid.NewGuid().ToString(format[0].ToString()));
             }
 
             // 单字符规则：为 DNBPX 中任意一个  → 返回小写 GUID 字符串

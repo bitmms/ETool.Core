@@ -12,7 +12,7 @@
         /// <returns>如果字符串符合手机号码的格式规范返回 true，否则返回 false</returns>
         public static bool IsValidPhoneNumber(string s)
         {
-            if (StringUtil.IsNullOrEmpty(s))
+            if (StrUtil.IsNullOrEmpty(s))
             {
                 return false;
             }
@@ -53,7 +53,7 @@
         /// <returns>如果字符串符合正整数的格式规范返回 true，否则返回 false</returns>
         public static bool IsValidPositiveNumber(string s)
         {
-            if (StringUtil.IsNullOrEmpty(s))
+            if (StrUtil.IsNullOrEmpty(s))
             {
                 return false;
             }
@@ -84,7 +84,7 @@
         /// <returns>如果字符串符合整数的格式规范返回 true，否则返回 false</returns>
         public static bool IsValidNumber(string s)
         {
-            if (StringUtil.IsNullOrEmpty(s))
+            if (StrUtil.IsNullOrEmpty(s))
             {
                 return false;
             }
@@ -114,7 +114,7 @@
         /// <returns>如果字符串符合 QQ 号码的格式规范返回 true，否则返回 false</returns>
         public static bool IsValidQqNumber(string s)
         {
-            if (StringUtil.IsNullOrEmpty(s))
+            if (StrUtil.IsNullOrEmpty(s))
             {
                 return false;
             }
@@ -151,7 +151,7 @@
         /// <returns>如果字符串符合 IPv4 地址点分十进制表示法的格式规范返回 true，否则返回 false</returns>
         public static bool IsValidIpv4(string s)
         {
-            if (StringUtil.IsNullOrEmpty(s))
+            if (StrUtil.IsNullOrEmpty(s))
             {
                 return false;
             }
@@ -182,7 +182,7 @@
             foreach (string segment in segments)
             {
                 // 失败：段为空校验
-                if (StringUtil.IsEmpty(segment))
+                if (StrUtil.IsEmpty(segment))
                 {
                     return false;
                 }
