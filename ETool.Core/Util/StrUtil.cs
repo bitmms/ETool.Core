@@ -892,5 +892,48 @@ namespace ETool.Core.Util
 
             return new string(resultChars, 0, idx);
         }
+
+        /// <summary>
+        /// 移除字符串中全部的指定字符
+        /// </summary>
+        /// <param name="s">字符串</param>
+        /// <param name="c">指定字符</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>移除全部指定字符后的字符串</returns>
+        public static string RemoveAllChar(string s, char c, bool ignoreCase = false)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+
+            var idx = 0;
+            var len = s.Length;
+            var resultChars = new char[len];
+
+            if (ignoreCase)
+            {
+                c = CharUtil.ToUpperLetter(c);
+                for (var i = 0; i < len; i++)
+                {
+                    if (CharUtil.ToUpperLetter(s[i]) != c)
+                    {
+                        resultChars[idx++] = s[i];
+                    }
+                }
+            }
+            else
+            {
+                for (var i = 0; i < len; i++)
+                {
+                    if (s[i] != c)
+                    {
+                        resultChars[idx++] = s[i];
+                    }
+                }
+            }
+
+            return new string(resultChars, 0, idx);
+        }
     }
 }
