@@ -935,5 +935,53 @@ namespace ETool.Core.Util
 
             return new string(resultChars, 0, idx);
         }
+
+        /// <summary>
+        /// 移除字符串中全部的指定字符
+        /// </summary>
+        /// <param name="s">字符串</param>
+        /// <param name="chars">字符数组</param>
+        /// <returns>移除全部指定字符后的字符串</returns>
+        public static string RemoveAllChars(string s, params char[] chars)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+
+            if (chars == null || chars.Length == 0)
+            {
+                return s;
+            }
+
+            var idx = 0;
+            var len = s.Length;
+            var resultChars = new char[len];
+
+            if (chars.Length > 4)
+            {
+                var charSet = new HashSet<char>(chars);
+
+                for (var i = 0; i < len; i++)
+                {
+                    if (!charSet.Contains(s[i]))
+                    {
+                        resultChars[idx++] = s[i];
+                    }
+                }
+            }
+            else
+            {
+                for (var i = 0; i < len; i++)
+                {
+                    if (Array.IndexOf(chars, s[i]) < 0)
+                    {
+                        resultChars[idx++] = s[i];
+                    }
+                }
+            }
+
+            return new string(resultChars, 0, idx);
+        }
     }
 }
