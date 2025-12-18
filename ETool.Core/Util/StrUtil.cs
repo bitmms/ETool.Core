@@ -1060,5 +1060,53 @@ namespace ETool.Core.Util
 
             return sourceString;
         }
+
+        /// <summary>
+        /// 替换字符串中第一个匹配的字符为指定字符
+        /// </summary>
+        /// <param name="s">源字符串</param>
+        /// <param name="sourceChar">被替换的源字符</param>
+        /// <param name="targetChar">用于替换的目标字符</param>
+        /// <param name="ignoreCase">是否忽略大小写（仅对英文字母 a-z / A-Z 生效）</param>
+        /// <returns>替换后的新字符串</returns>
+        public static string ReplaceFirstChar(string s, char sourceChar, char targetChar, bool ignoreCase = false)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+
+            var index = -1;
+
+            // 只有英文字母才有大小写之分
+            if (!ignoreCase || !CharUtil.IsLetter(sourceChar))
+            {
+                index = s.IndexOf(sourceChar);
+            }
+            else
+            {
+                var sourceUpperChar = CharUtil.ToUpperLetter(sourceChar);
+
+                for (var i = 0; i < s.Length; i++)
+                {
+                    if (CharUtil.ToUpperLetter(s[i]) == sourceUpperChar)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+
+            if (index < 0)
+            {
+                return s;
+            }
+
+            var resultChars = new char[s.Length];
+            s.CopyTo(0, resultChars, 0, index);
+            resultChars[index] = targetChar;
+            s.CopyTo(index + 1, resultChars, index + 1, s.Length - index - 1);
+            return new string(resultChars);
+        }
     }
 }
