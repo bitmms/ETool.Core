@@ -92,8 +92,9 @@ namespace ETool.Core.Util
         /// 检验指定字符串是否符合中国 18 位身份证的格式规范
         /// </summary>
         /// <param name="s">待校验的字符串</param>
+        /// <param name="ignoreCase">是否忽略大小写（默认忽略）</param>
         /// <returns>如果字符串符合返回 true，否则返回 false</returns>
-        public static bool IsValidChinaIdCard18(string s)
+        public static bool IsValidChinaIdCard18(string s, bool ignoreCase = true)
         {
             if (string.IsNullOrEmpty(s) || s.Length != 18)
             {
@@ -110,9 +111,19 @@ namespace ETool.Core.Util
             }
 
             // 第18位：数字或 X/x
-            if (!(s[17] == 'x' || s[17] == 'X' || s[17] >= '0' && s[17] <= '9'))
+            if (ignoreCase)
             {
-                return false;
+                if (!(s[17] == 'x' || s[17] == 'X' || s[17] >= '0' && s[17] <= '9'))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (!(s[17] == 'X' || s[17] >= '0' && s[17] <= '9'))
+                {
+                    return false;
+                }
             }
 
             // 省份码校验
@@ -180,9 +191,15 @@ namespace ETool.Core.Util
         /// 检验指定字符串是否符合中国身份证号码的格式规范【兼容15、18位身份证号码】
         /// </summary>
         /// <param name="s">待校验的字符串</param>
+        /// <param name="ignoreCase">是否忽略大小写（默认忽略）</param>
         /// <returns>如果字符串符合返回 true，否则返回 false</returns>
-        /// <remarks>注意：格式正确 ≠ 身份真实</remarks>
-        public static bool IsValidChinaIdCard(string s)
+        /// <remarks>
+        /// <para>1. 注意：格式正确 ≠ 身份真实</para>
+        /// <para>2. 默认忽略大小写，当最后一位是字母时，可以是 <c>x</c> 和 <c>X</c></para>
+        /// <para>3. 如果不忽略大小写，当最后一位是字母时，必须是 <c>X</c></para>
+        /// <para>4. 校验逻辑包含：长度、数字格式、省份编码、出生日期、校验码</para>
+        /// </remarks>
+        public static bool IsValidChinaIdCard(string s, bool ignoreCase = true)
         {
             if (string.IsNullOrEmpty(s))
             {
@@ -192,7 +209,7 @@ namespace ETool.Core.Util
             switch (s.Length)
             {
                 case 18:
-                    return IsValidChinaIdCard18(s);
+                    return IsValidChinaIdCard18(s, ignoreCase);
                 case 15:
                     return IsValidChinaIdCard15(s);
                 default:
