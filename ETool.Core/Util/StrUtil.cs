@@ -983,5 +983,53 @@ namespace ETool.Core.Util
 
             return new string(resultChars, 0, idx);
         }
+
+        /// <summary>
+        /// 移除字符串中全部的指定子串
+        /// </summary>
+        /// <param name="sourceString">字符串</param>
+        /// <param name="targetSubstring">待移除的子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>移除全部指定子串后的字符串</returns>
+        public static string RemoveAllString(string sourceString, string targetSubstring, bool ignoreCase = false)
+        {
+            if (string.IsNullOrEmpty(sourceString))
+            {
+                return string.Empty;
+            }
+
+            if (string.IsNullOrEmpty(targetSubstring))
+            {
+                return sourceString;
+            }
+
+            if (!ignoreCase)
+            {
+                return sourceString.Replace(targetSubstring, "");
+            }
+
+            var sb = new StringBuilder();
+            var startIndex = 0;
+            var targetLength = targetSubstring.Length;
+            var sourceLength = sourceString.Length;
+
+            while (startIndex <= sourceLength - targetLength)
+            {
+                var foundIndex = IndexOf(sourceString, targetSubstring, startIndex, sourceLength - startIndex, true);
+                if (foundIndex == -1)
+                {
+                    break;
+                }
+
+                // 追加 [start, foundIndex) 之间的内容
+                sb.Append(sourceString, startIndex, foundIndex - startIndex);
+                // 跳过匹配部分
+                startIndex = foundIndex + targetLength;
+            }
+
+            // 追加剩余部分
+            sb.Append(sourceString, startIndex, sourceLength - startIndex);
+            return sb.ToString();
+        }
     }
 }
