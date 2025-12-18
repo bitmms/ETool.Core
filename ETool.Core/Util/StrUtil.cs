@@ -1031,5 +1031,34 @@ namespace ETool.Core.Util
             sb.Append(sourceString, startIndex, sourceLength - startIndex);
             return sb.ToString();
         }
+
+        /// <summary>
+        /// 移除字符串中全部的指定子串【按照子串的传入顺序进行移除】
+        /// </summary>
+        /// <param name="sourceString">字符串</param>
+        /// <param name="targetSubstrings">字符串数组</param>
+        /// <returns>移除全部指定子串后的字符串</returns>
+        public static string RemoveAllStrings(string sourceString, params string[] targetSubstrings)
+        {
+            if (string.IsNullOrEmpty(sourceString))
+            {
+                return string.Empty;
+            }
+
+            if (targetSubstrings == null || targetSubstrings.Length == 0)
+            {
+                return sourceString;
+            }
+
+            foreach (var s in targetSubstrings)
+            {
+                if (!string.IsNullOrEmpty(s))
+                {
+                    sourceString = RemoveAllString(sourceString, s);
+                }
+            }
+
+            return sourceString;
+        }
     }
 }
