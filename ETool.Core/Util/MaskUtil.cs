@@ -20,7 +20,7 @@
 
             if (ValidatorUtil.IsValidPhoneNumber(phoneNumber))
             {
-                return StrUtil.ReplaceRangeWithChar(phoneNumber, 3, 4, maskChar);
+                return StrUtil.FillChars(phoneNumber, 3, 4, maskChar);
             }
 
             return phoneNumber;
@@ -46,10 +46,10 @@
 
             if (idCard.Length == 18)
             {
-                return StrUtil.ReplaceRangeWithChar(idCard, 3, 12, maskChar);
+                return StrUtil.FillChars(idCard, 3, 12, maskChar);
             }
 
-            return StrUtil.ReplaceRangeWithChar(idCard, 3, 9, maskChar);
+            return StrUtil.FillChars(idCard, 3, 9, maskChar);
         }
     }
 }

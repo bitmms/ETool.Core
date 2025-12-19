@@ -461,7 +461,7 @@ namespace ETool.Core.Util
                 return idCard;
             }
 
-            return StrUtil.ReplaceRangeWithChar(idCard, start, count, maskChar);
+            return StrUtil.FillChars(idCard, start, count, maskChar);
         }
 
         /// <summary>
