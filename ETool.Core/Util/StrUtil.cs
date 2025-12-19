@@ -1221,5 +1221,107 @@ namespace ETool.Core.Util
 
             return new string(resultChars);
         }
+
+        /// <summary>
+        /// 在字符串指定起始位置删除指定长度的子串，并插入目标字符串指定次数
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="startIndex">替换起始索引</param>
+        /// <param name="deleteLength">要删除的子串长度</param>
+        /// <param name="insertString">要插入的目标字符串</param>
+        /// <param name="count">插入目标字符串的次数</param>
+        /// <returns>操作后的新字符串</returns>
+        /// <remarks>
+        /// <para>1. 仅删除：<c>deleteLength != 0, count == 0</c></para>
+        /// <para>2. 仅插入：<c>deleteLength == 0, count != 0</c></para>
+        /// <para>3. 删除并插入：<c>deleteLength != 0, count != 0</c></para>
+        /// </remarks>
+        public static string Splice(string sourceString, int startIndex, int deleteLength, string insertString, int count = 1)
+        {
+            if (string.IsNullOrEmpty(sourceString))
+            {
+                return string.Empty;
+            }
+
+            if (deleteLength == 0 && count == 0)
+            {
+                return sourceString;
+            }
+
+            if (startIndex < 0)
+            {
+                startIndex = 0;
+            }
+
+            if (startIndex > sourceString.Length || deleteLength < 0 || count < 0 || (startIndex == sourceString.Length && count == 0))
+            {
+                return sourceString;
+            }
+
+            insertString = insertString ?? string.Empty;
+
+            if (startIndex == sourceString.Length)
+            {
+                if (insertString.Length == 0)
+                {
+                    return sourceString;
+                }
+
+                var totalLength = sourceString.Length + (long)insertString.Length * count;
+                if (totalLength > int.MaxValue)
+                {
+                    return sourceString;
+                }
+
+                var resultChars = new char[(int)totalLength];
+
+                // 复制前段
+                sourceString.CopyTo(0, resultChars, 0, sourceString.Length);
+
+                // 插入目标字符串 count 次
+                var destIndex = sourceString.Length;
+                for (var i = 0; i < count; i++)
+                {
+                    insertString.CopyTo(0, resultChars, destIndex, insertString.Length);
+                    destIndex += insertString.Length;
+                }
+
+                return new string(resultChars);
+            }
+            else
+            {
+                deleteLength = Math.Min(deleteLength, sourceString.Length - startIndex);
+
+                var totalLength = sourceString.Length - deleteLength + (long)insertString.Length * count;
+                if (totalLength > int.MaxValue)
+                {
+                    return sourceString;
+                }
+
+                var resultChars = new char[(int)totalLength];
+
+                // 复制前段
+                sourceString.CopyTo(0, resultChars, 0, startIndex);
+
+                // 插入目标字符串 count 次
+                if (insertString.Length != 0)
+                {
+                    var destIndex = startIndex;
+                    for (var i = 0; i < count; i++)
+                    {
+                        insertString.CopyTo(0, resultChars, destIndex, insertString.Length);
+                        destIndex += insertString.Length;
+                    }
+                }
+
+                // 复制后段（如果有）
+                if (sourceString.Length > startIndex + deleteLength)
+                {
+                    sourceString.CopyTo(startIndex + deleteLength, resultChars, startIndex + count * insertString.Length, sourceString.Length - startIndex - deleteLength);
+                }
+
+                return new string(resultChars);
+            }
+        }
     }
 }
