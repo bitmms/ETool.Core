@@ -1150,6 +1150,45 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 替换字符串中第一个匹配的字符串为指定字符串
+        /// </summary>
+        /// <param name="s">源字符串</param>
+        /// <param name="sourceString">被替换的源字符串</param>
+        /// <param name="targetString">用于替换的目标字符串</param>
+        /// <param name="ignoreCase">是否忽略大小写（仅对英文字母 a-z / A-Z 生效）</param>
+        /// <returns>替换后的新字符串</returns>
+        public static string ReplaceFirstString(string s, string sourceString, string targetString, bool ignoreCase = false)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+
+            if (string.IsNullOrEmpty(sourceString))
+            {
+                return s;
+            }
+
+            targetString = targetString ?? string.Empty;
+
+            var index = ignoreCase
+                ? IndexOf(s, sourceString, true)
+                : s.IndexOf(sourceString, StringComparison.Ordinal);
+
+            if (index == -1)
+            {
+                return s;
+            }
+
+            if (targetString.Length == 0)
+            {
+                return s.Substring(0, index) + s.Substring(index + sourceString.Length);
+            }
+
+            return s.Substring(0, index) + targetString + s.Substring(index + sourceString.Length);
+        }
+
+        /// <summary>
         /// 在字符串指定起始位置删除指定长度的子串，并插入目标字符指定次数
         /// </summary>
         /// <param name="sourceString">源字符串</param>
