@@ -25,6 +25,22 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 从指定格式的日期字符串中解析该日期是该年中的第几天（1-366）
+        /// </summary>
+        /// <param name="s">要解析的日期字符串</param>
+        /// <param name="formats">用于解析的日期格式字符串数组</param>
+        /// <returns> 解析成功时，返回该日期在一年中的第几天；解析失败时，返回 -1 </returns>
+        public static int GetDayOfYear(string s, string[] formats)
+        {
+            if (!DateTime.TryParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime))
+            {
+                return -1;
+            }
+
+            return dateTime.DayOfYear;
+        }
+
+        /// <summary>
         /// 判断 DateTime 是否在指定的起止日期时间内（包含边界）
         /// </summary>
         /// <param name="dt">要判断的日期时间</param>
