@@ -40,7 +40,7 @@ namespace ETool.Core.Util
 
             return dt >= start && dt <= end;
         }
-        
+
         /// <summary>
         /// 判断 DateTime 是否在指定的起止日期内（包含边界）
         /// </summary>
