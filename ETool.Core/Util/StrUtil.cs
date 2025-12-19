@@ -689,60 +689,6 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
-        /// 移除字符串的指定前缀
-        /// </summary>
-        /// <param name="sourceString">源字符串</param>
-        /// <param name="prefix">待移除的前缀子串</param>
-        /// <param name="ignoreCase">是否忽略大小写</param>
-        /// <returns>移除前缀的字符串</returns>
-        public static string RemovePrefix(string sourceString, string prefix, bool ignoreCase = false)
-        {
-            if (IsNull(sourceString) || IsEmpty(sourceString))
-            {
-                return "";
-            }
-
-            if (IsNull(prefix) || IsEmpty(prefix))
-            {
-                return sourceString;
-            }
-
-            if (StartsWith(sourceString, prefix, ignoreCase))
-            {
-                sourceString = sourceString.Substring(prefix.Length);
-            }
-
-            return sourceString;
-        }
-
-        /// <summary>
-        /// 移除字符串的指定后缀
-        /// </summary>
-        /// <param name="sourceString">源字符串</param>
-        /// <param name="suffix">待移除的后缀子串</param>
-        /// <param name="ignoreCase">是否忽略大小写</param>
-        /// <returns>移除后缀的字符串</returns>
-        public static string RemoveSuffix(string sourceString, string suffix, bool ignoreCase = false)
-        {
-            if (IsNull(sourceString) || IsEmpty(sourceString))
-            {
-                return "";
-            }
-
-            if (IsNull(suffix) || IsEmpty(suffix))
-            {
-                return sourceString;
-            }
-
-            if (EndsWith(sourceString, suffix, ignoreCase))
-            {
-                sourceString = sourceString.Substring(0, sourceString.Length - suffix.Length);
-            }
-
-            return sourceString;
-        }
-
-        /// <summary>
         /// 字符串集合转字符串
         /// </summary>
         /// <param name="separator">用于连接各元素的分隔符</param>
@@ -802,6 +748,60 @@ namespace ETool.Core.Util
         public static string Join(char sep, IEnumerable<string> items, bool skipNull = true, string nullReplacement = "null")
         {
             return Join(sep.ToString(), items, skipNull, nullReplacement);
+        }
+
+        /// <summary>
+        /// 移除字符串的指定前缀
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="prefix">待移除的前缀子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>移除前缀的字符串</returns>
+        public static string RemovePrefix(string sourceString, string prefix, bool ignoreCase = false)
+        {
+            if (IsNull(sourceString) || IsEmpty(sourceString))
+            {
+                return "";
+            }
+
+            if (IsNull(prefix) || IsEmpty(prefix))
+            {
+                return sourceString;
+            }
+
+            if (StartsWith(sourceString, prefix, ignoreCase))
+            {
+                sourceString = sourceString.Substring(prefix.Length);
+            }
+
+            return sourceString;
+        }
+
+        /// <summary>
+        /// 移除字符串的指定后缀
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="suffix">待移除的后缀子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>移除后缀的字符串</returns>
+        public static string RemoveSuffix(string sourceString, string suffix, bool ignoreCase = false)
+        {
+            if (IsNull(sourceString) || IsEmpty(sourceString))
+            {
+                return "";
+            }
+
+            if (IsNull(suffix) || IsEmpty(suffix))
+            {
+                return sourceString;
+            }
+
+            if (EndsWith(sourceString, suffix, ignoreCase))
+            {
+                sourceString = sourceString.Substring(0, sourceString.Length - suffix.Length);
+            }
+
+            return sourceString;
         }
 
         /// <summary>
@@ -1023,6 +1023,47 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 将字符串指定区间的若干字符替换为目标字符
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="startIndex">起始索引</param>
+        /// <param name="length">要替换的字符数量</param>
+        /// <param name="fillChar">用于填充的目标字符</param>
+        /// <returns>替换后的新字符串</returns>
+        public static string FillChars(string sourceString, int startIndex, int length, char fillChar)
+        {
+            if (string.IsNullOrEmpty(sourceString))
+            {
+                return string.Empty;
+            }
+
+            if (startIndex < 0)
+            {
+                startIndex = 0;
+            }
+
+            if (startIndex >= sourceString.Length || length <= 0)
+            {
+                return sourceString;
+            }
+
+            if (length > sourceString.Length - startIndex)
+            {
+                length = sourceString.Length - startIndex;
+            }
+
+            var resultChars = sourceString.ToCharArray();
+
+            // 仅填充目标字符
+            for (var i = 0; i < length; i++)
+            {
+                resultChars[startIndex + i] = fillChar;
+            }
+
+            return new string(resultChars);
+        }
+
+        /// <summary>
         /// 替换字符串中第一个匹配的字符为指定字符
         /// </summary>
         /// <param name="s">源字符串</param>
@@ -1103,47 +1144,6 @@ namespace ETool.Core.Util
                 {
                     resultChars[i] = s[i];
                 }
-            }
-
-            return new string(resultChars);
-        }
-
-        /// <summary>
-        /// 将字符串指定区间的若干字符替换为目标字符
-        /// </summary>
-        /// <param name="sourceString">源字符串</param>
-        /// <param name="startIndex">起始索引</param>
-        /// <param name="length">要替换的字符数量</param>
-        /// <param name="fillChar">用于填充的目标字符</param>
-        /// <returns>替换后的新字符串</returns>
-        public static string FillChars(string sourceString, int startIndex, int length, char fillChar)
-        {
-            if (string.IsNullOrEmpty(sourceString))
-            {
-                return string.Empty;
-            }
-
-            if (startIndex < 0)
-            {
-                startIndex = 0;
-            }
-
-            if (startIndex >= sourceString.Length || length <= 0)
-            {
-                return sourceString;
-            }
-
-            if (length > sourceString.Length - startIndex)
-            {
-                length = sourceString.Length - startIndex;
-            }
-
-            var resultChars = sourceString.ToCharArray();
-
-            // 仅填充目标字符
-            for (var i = 0; i < length; i++)
-            {
-                resultChars[startIndex + i] = fillChar;
             }
 
             return new string(resultChars);
