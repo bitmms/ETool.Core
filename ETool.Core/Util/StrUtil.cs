@@ -1150,6 +1150,60 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 替换字符串中所有匹配的字符串为指定字符串
+        /// </summary>
+        /// <param name="s">源字符串</param>
+        /// <param name="sourceString">被替换的源字符串</param>
+        /// <param name="targetString">用于替换的目标字符串</param>
+        /// <param name="ignoreCase">是否忽略大小写（仅对英文字母 a-z / A-Z 生效）</param>
+        /// <returns>替换后的新字符串</returns>
+        public static string ReplaceAllString(string s, string sourceString, string targetString, bool ignoreCase = false)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+
+            if (string.IsNullOrEmpty(sourceString))
+            {
+                return s;
+            }
+
+            if (string.IsNullOrEmpty(targetString))
+            {
+                targetString = string.Empty;
+            }
+
+            var result = new StringBuilder();
+            var startIndex = 0;
+            var sourceLen = sourceString.Length;
+
+            while (startIndex <= s.Length - sourceLen)
+            {
+                var index = ignoreCase
+                    ? IndexOf(s, sourceString, startIndex, s.Length - startIndex, true)
+                    : s.IndexOf(sourceString, startIndex, StringComparison.Ordinal);
+
+                if (index < 0)
+                {
+                    break;
+                }
+
+                result.Append(s, startIndex, index - startIndex);
+                result.Append(targetString);
+
+                startIndex = index + sourceLen;
+            }
+
+            if (startIndex < s.Length)
+            {
+                result.Append(s, startIndex, s.Length - startIndex);
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
         /// 替换字符串中第一个匹配的字符串为指定字符串
         /// </summary>
         /// <param name="s">源字符串</param>
