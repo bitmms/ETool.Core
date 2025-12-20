@@ -978,6 +978,43 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 移除字符串中第一个匹配的指定子串
+        /// </summary>
+        /// <param name="sourceString">字符串</param>
+        /// <param name="targetSubstring">待移除的子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>移除第一个匹配的指定子串后的字符串</returns>
+        public static string RemoveFirstString(string sourceString, string targetSubstring, bool ignoreCase = false)
+        {
+            if (string.IsNullOrEmpty(sourceString))
+            {
+                return string.Empty;
+            }
+
+            if (string.IsNullOrEmpty(targetSubstring))
+            {
+                return sourceString;
+            }
+
+            var index = ignoreCase ? IndexOf(sourceString, targetSubstring, true) : sourceString.IndexOf(targetSubstring, StringComparison.Ordinal);
+            if (index < 0)
+            {
+                return sourceString;
+            }
+
+            // 构造新字符串：跳过 index 位置
+            var resultChars = new char[sourceString.Length - targetSubstring.Length];
+
+            // 复制字符串前半部分 [0, index)
+            sourceString.CopyTo(0, resultChars, 0, index);
+
+            // 复制字符串后半部分 [index+1, end)
+            sourceString.CopyTo(index + targetSubstring.Length, resultChars, index, sourceString.Length - index - targetSubstring.Length);
+
+            return new string(resultChars);
+        }
+
+        /// <summary>
         /// 移除字符串中全部的指定子串
         /// </summary>
         /// <param name="sourceString">字符串</param>
