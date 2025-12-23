@@ -87,5 +87,48 @@ namespace ETool.Core.Util
 
             return (int)startIndexLong;
         }
+
+        /// <summary>
+        /// 计算分页的结束索引（不包含）
+        /// </summary>
+        /// <param name="startIndex">分页的开始索引（包含）</param>
+        /// <param name="pageSize">每页包含的元素数量</param>
+        /// <returns>分页的结束索引（不包含）</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><c>startIndex</c> 小于 0</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>pageSize</c> 小于等于 0</exception>
+        /// <exception cref="OverflowException">计算得出的结束索引超出了 int 的范围</exception>
+        /// <example>
+        /// <code>
+        /// GetEndIndexExclusiveByStartIndex(11, 10) → 21
+        /// GetEndIndexExclusiveByStartIndex(18, 10) → 28
+        /// GetEndIndexExclusiveByStartIndex(33, 15) → 48
+        /// </code>
+        /// </example>
+        public static int GetEndIndexExclusiveByStartIndex(int startIndex, int pageSize)
+        {
+            if (startIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(startIndex),
+                    startIndex,
+                    $"分页开始索引 '{nameof(startIndex)}' 必须大于等于 0，实际值：{startIndex}");
+            }
+
+            if (pageSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(pageSize),
+                    pageSize,
+                    $"每页大小 '{nameof(pageSize)}' 必须大于 0，实际值：{pageSize}");
+            }
+
+            var endIndexLong = (long)startIndex + pageSize;
+            if (endIndexLong > int.MaxValue)
+            {
+                throw new OverflowException($"分页结束索引溢出超出 int 范围：startIndex + pageSize = {startIndex} + {pageSize} = {endIndexLong} > int.MaxValue = {int.MaxValue}");
+            }
+
+            return (int)endIndexLong;
+        }
     }
 }
