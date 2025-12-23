@@ -178,5 +178,108 @@ namespace ETool.Core.Util
 
             return (startIndex, endIndex);
         }
+
+        /// <summary>
+        /// 获取分页控件中应显示的可见页码列表
+        /// </summary>
+        /// <param name="pageNumber">当前页码</param>
+        /// <param name="totalPages">总页数</param>
+        /// <param name="visiblePageCount">要显示的页码数量</param>
+        /// <returns>按顺序排列的可见页码数组</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><c>pageNumber</c> 小于等于 0</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>totalPages</c> 小于 0</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>pageNumber</c> 大于 <c>totalPages</c></exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>visiblePageCount</c> 小于等于 0</exception>
+        /// <example>
+        /// <code>
+        /// GetVisiblePageNumbers(1, 10, 5) → [1, 2, 3, 4, 5]
+        /// GetVisiblePageNumbers(3, 10, 5) → [1, 2, 3, 4, 5]
+        /// GetVisiblePageNumbers(5, 10, 5) → [3, 4, 5, 6, 7]
+        /// GetVisiblePageNumbers(10, 10, 5) → [6, 7, 8, 9, 10]
+        /// GetVisiblePageNumbers(1, 0, 5) → []
+        /// GetVisiblePageNumbers(1, 3, 7) → [1, 2, 3]
+        /// </code>
+        /// </example>
+        public static int[] GetVisiblePageNumbers(int pageNumber, int totalPages, int visiblePageCount)
+        {
+            if (pageNumber <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(pageNumber),
+                    pageNumber,
+                    $"当前页码 '{nameof(pageNumber)}' 必须大于 0，实际值：{pageNumber}");
+            }
+
+            if (totalPages < 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(totalPages),
+                    totalPages,
+                    $"总页数 '{nameof(totalPages)}' 必须大于等于 0，实际值：{totalPages}");
+            }
+
+            if (totalPages == 0)
+            {
+                return Array.Empty<int>();
+            }
+
+            if (pageNumber > totalPages)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(pageNumber),
+                    pageNumber,
+                    $"当前页码 '{nameof(pageNumber)}' 不能大于总页数 {totalPages}，实际值：{pageNumber}");
+            }
+
+            if (visiblePageCount <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(visiblePageCount),
+                    visiblePageCount,
+                    $"要显示的页码数量 '{nameof(visiblePageCount)}' 必须大于 0，实际值：{visiblePageCount}");
+            }
+
+            var result = new int[Math.Min(totalPages, visiblePageCount)];
+
+            // 总页数不超过要显示的数量
+            if (visiblePageCount >= totalPages)
+            {
+                for (var i = 0; i < totalPages; i++)
+                {
+                    result[i] = i + 1;
+                }
+
+                return result;
+            }
+
+            var left = visiblePageCount >> 1; // 当前页左侧有多少页
+            var right = visiblePageCount >> 1; // 当前页右侧有多少页
+            if (visiblePageCount % 2 == 0)
+            {
+                left--; // 使当前页视觉偏左，符合主流 UI 习惯
+            }
+
+            var startPage = pageNumber - left; // 开始页码
+            var endPage = pageNumber + right; // 结束页码
+
+            if (startPage <= 0)
+            {
+                var shift = 1 - startPage;
+                startPage += shift;
+            }
+
+            if (endPage > totalPages)
+            {
+                var shift = endPage - totalPages;
+                startPage -= shift;
+            }
+
+            for (var i = 0; i < visiblePageCount; i++)
+            {
+                result[i] = startPage + i;
+            }
+
+            return result;
+        }
     }
 }
