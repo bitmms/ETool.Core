@@ -281,5 +281,31 @@ namespace ETool.Core.Util
 
             return result;
         }
+
+        /// <summary>
+        /// 获取分页控件中应显示的可见页码列表
+        /// </summary>
+        /// <param name="pageNumber">当前页码</param>
+        /// <param name="totalCount">元素的总数量</param>
+        /// <param name="pageSize">每页元素的数量</param>
+        /// <param name="visiblePageCount">要显示的页码数量</param>
+        /// <returns>按顺序排列的可见页码数组</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><c>pageNumber</c> 小于等于 0</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>totalCount</c> 小于 0</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>pageSize</c> 小于等于 0</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>pageNumber</c> 大于根据 <c>totalCount</c> 和 <c>pageSize</c> 计算出的总页数</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>visiblePageCount</c> 小于等于 0</exception>
+        /// <example>
+        /// <code>
+        /// GetVisiblePageNumbers(3, 97, 10, 5) → [1, 2, 3, 4, 5]
+        /// GetVisiblePageNumbers(5, 97, 10, 5) → [3, 4, 5, 6, 7]
+        /// GetVisiblePageNumbers(10, 97, 10, 5) → [6, 7, 8, 9, 10]
+        /// GetVisiblePageNumbers(1, 0, 10, 5) → []
+        /// </code>
+        /// </example>
+        public static int[] GetVisiblePageNumbers(int pageNumber, int totalCount, int pageSize, int visiblePageCount)
+        {
+            return GetVisiblePageNumbers(pageNumber, GetTotalPages(totalCount, pageSize), visiblePageCount);
+        }
     }
 }
