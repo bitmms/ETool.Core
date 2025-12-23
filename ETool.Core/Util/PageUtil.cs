@@ -154,5 +154,29 @@ namespace ETool.Core.Util
 
             return endIndex;
         }
+
+        /// <summary>
+        /// 计算分页的开始索引（包含）和结束索引（不包含）
+        /// </summary>
+        /// <param name="pageNumber">当前页码</param>
+        /// <param name="pageSize">每页包含的元素数量</param>
+        /// <returns>包含开始索引和结束索引的元组</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><c>pageNumber</c> 小于等于 0</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>pageSize</c> 小于等于 0</exception>
+        /// <exception cref="OverflowException">内部计算的开始索引或结束索引超出了 int 的范围</exception>
+        /// <example>
+        /// <code>
+        /// GetPageIndexRange(1, 10) → (0, 10)
+        /// GetPageIndexRange(2, 10) → (10, 20)
+        /// GetPageIndexRange(3, 5)  → (10, 15)
+        /// </code>
+        /// </example>
+        public static (int StartIndex, int EndIndex) GetPageIndexRange(int pageNumber, int pageSize)
+        {
+            var startIndex = GetStartIndex(pageNumber, pageSize);
+            var endIndex = GetEndIndexExclusiveByStartIndex(startIndex, pageSize);
+
+            return (startIndex, endIndex);
+        }
     }
 }
