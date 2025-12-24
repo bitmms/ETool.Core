@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ETool.Core.Util
 {
@@ -306,6 +307,63 @@ namespace ETool.Core.Util
         public static int[] GetVisiblePageNumbers(int pageNumber, int totalCount, int pageSize, int visiblePageCount)
         {
             return GetVisiblePageNumbers(pageNumber, GetTotalPages(totalCount, pageSize), visiblePageCount);
+        }
+
+        /// <summary>
+        /// 获取用于 UI 显示的分页范围列表
+        /// </summary>
+        /// <param name="totalCount">元素的总数量</param>
+        /// <param name="pageSize">每页元素的数量</param>
+        /// <returns>
+        /// 用于 UI 显示的分页范围列表
+        /// 一个列表，其中每个元素为具名元组 (pageNumber, DisplayStart, DisplayEnd)：
+        /// <list type="bullet">
+        ///   <item><description><c>pageNumber</c>：从 1 开始的页码</description></item>
+        ///   <item><description><c>DisplayStart</c>：该页第一条记录的 1-based 序号</description></item>
+        ///   <item><description><c>DisplayEnd</c>：该页最后一条记录的 1-based 序号（inclusive）</description></item>
+        /// </list>
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException"><c>totalCount</c> 小于 0</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>pageSize</c> 小于等于 0</exception>
+        public static List<(int pageNumber, int DisplayStart, int DisplayEnd)> GetPageDisplayRangesList(int totalCount, int pageSize)
+        {
+            if (totalCount < 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(totalCount),
+                    totalCount,
+                    $"元素总数 '{nameof(totalCount)}' 必须大于等于 0，实际值：{totalCount}");
+            }
+
+            if (pageSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(pageSize),
+                    pageSize,
+                    $"每页大小 '{nameof(pageSize)}' 必须大于 0，实际值：{pageSize}");
+            }
+
+            if (totalCount == 0)
+            {
+                return new List<(int pageNumber, int DisplayStart, int DisplayEnd)>();
+            }
+
+            var pages = GetTotalPages(totalCount, pageSize);
+            var list = new List<(int pageNumber, int DisplayStart, int DisplayEnd)>(pages);
+            for (var i = 1; i <= pages; i++)
+            {
+                // 因为 (pages - 1) * pageSize + X = totalCount 并且 X >=1 && X <= pageSize
+                // 所以 (pages - 1) * pageSize < totalCount
+                // 所以 start = (i - 1) * pageSize + 1 <= (pages - 1) * pageSize + 1 < totalCount + 1
+                // 所以 start <= totalCount <= int.Max
+                // 所以 start 不会溢出
+                var start = (i - 1) * pageSize + 1;
+                // 将可能出现溢出的 i * pageSize 转化为不会出现溢出的 (pages - 1) * pageSize
+                var end = Math.Min(totalCount - pageSize, (i - 1) * pageSize) + pageSize;
+                list.Add((i, start, end));
+            }
+
+            return list;
         }
     }
 }
