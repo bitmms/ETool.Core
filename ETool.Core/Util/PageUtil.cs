@@ -140,7 +140,7 @@ namespace ETool.Core.Util
         /// <returns>分页的结束索引（不包含）</returns>
         /// <exception cref="ArgumentOutOfRangeException"><c>pageNumber</c> 小于等于 0</exception>
         /// <exception cref="ArgumentOutOfRangeException"><c>pageSize</c> 小于等于 0</exception>
-        /// <exception cref="OverflowException">内部计算的开始索引或结束索引超出了 int 的范围</exception>
+        /// <exception cref="OverflowException">计算得出的结束索引超出了 int 的范围</exception>
         /// <example>
         /// <code>
         /// GetEndIndexExclusive(1, 10) → 10
@@ -150,10 +150,29 @@ namespace ETool.Core.Util
         /// </example>
         public static int GetEndIndexExclusive(int pageNumber, int pageSize)
         {
-            var startIndex = GetStartIndex(pageNumber, pageSize);
-            var endIndex = GetEndIndexExclusiveByStartIndex(startIndex, pageSize);
+            if (pageNumber <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(pageNumber),
+                    pageNumber,
+                    $"当前页码 '{nameof(pageNumber)}' 必须大于 0，实际值：{pageNumber}");
+            }
 
-            return endIndex;
+            if (pageSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(pageSize),
+                    pageSize,
+                    $"每页大小 '{nameof(pageSize)}' 必须大于 0，实际值：{pageSize}");
+            }
+
+            var endIndexLong = (long)pageNumber * pageSize; // 由于 int.MaxValue * int.MaxValue < long.MaxValue，所以这里不用担心 long 溢出
+            if (endIndexLong > int.MaxValue)
+            {
+                throw new OverflowException($"分页结束索引溢出超出 int 范围：pageNumber * pageSize = {pageNumber} * {pageSize} = {endIndexLong} > int.MaxValue = {int.MaxValue}");
+            }
+
+            return (int)endIndexLong;
         }
 
         /// <summary>
