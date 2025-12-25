@@ -63,6 +63,7 @@
         <Compile Include="Util\PageUtilTest\GetTotalPagesTest.cs" />
         <Compile Include="Util\PageUtilTest\GetVisiblePageNumbersByTotalCountAndPageSizeTest.cs" />
         <Compile Include="Util\PageUtilTest\GetVisiblePageNumbersTest.cs" />
+        <Compile Include="Util\StrUtilTest\IndexOfTest.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
