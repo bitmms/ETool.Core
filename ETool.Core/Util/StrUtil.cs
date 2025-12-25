@@ -485,7 +485,7 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
-        /// 在字符串的指定范围内查找指定子串首次出现的索引 TODO: 使用 KMP 算法优化
+        /// 在字符串的指定范围内查找指定子串首次出现的索引
         /// </summary>
         /// <param name="sourceString">源字符串</param>
         /// <param name="targetString">目标子串</param>
@@ -500,19 +500,19 @@ namespace ETool.Core.Util
                 return -1;
             }
 
-            if (start >= sourceString.Length || count <= 0)
-            {
-                return -1;
-            }
-
             if (start < 0)
             {
                 start = 0;
             }
 
-            if (IsEmpty(targetString))
+            if (targetString == string.Empty && start <= sourceString.Length)
             {
                 return start;
+            }
+
+            if (start >= sourceString.Length || count <= 0)
+            {
+                return -1;
             }
 
             if (count > sourceString.Length - start)
