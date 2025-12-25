@@ -57,6 +57,7 @@
         <Compile Include="Util\NumberUtilTest.cs" />
         <Compile Include="Util\PageUtilTest\GetEndIndexExclusiveByStartIndexTest.cs" />
         <Compile Include="Util\PageUtilTest\GetEndIndexExclusiveTest.cs" />
+        <Compile Include="Util\PageUtilTest\GetPageDisplayRangesListTest.cs" />
         <Compile Include="Util\PageUtilTest\GetPageIndexRangeTest.cs" />
         <Compile Include="Util\PageUtilTest\GetStartIndexTest.cs" />
         <Compile Include="Util\PageUtilTest\GetTotalPagesTest.cs" />
