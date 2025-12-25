@@ -55,6 +55,7 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Util\CharUtilTest.cs" />
         <Compile Include="Util\NumberUtilTest.cs" />
+        <Compile Include="Util\PageUtilTest\GetTotalPagesTest.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
