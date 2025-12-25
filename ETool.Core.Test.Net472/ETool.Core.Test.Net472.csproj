@@ -60,6 +60,7 @@
         <Compile Include="Util\PageUtilTest\GetPageIndexRangeTest.cs" />
         <Compile Include="Util\PageUtilTest\GetStartIndexTest.cs" />
         <Compile Include="Util\PageUtilTest\GetTotalPagesTest.cs" />
+        <Compile Include="Util\PageUtilTest\GetVisiblePageNumbersByTotalCountAndPageSizeTest.cs" />
         <Compile Include="Util\PageUtilTest\GetVisiblePageNumbersTest.cs" />
     </ItemGroup>
     <ItemGroup>
