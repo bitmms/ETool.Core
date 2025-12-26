@@ -160,5 +160,44 @@ namespace ETool.Core.Util
             var utcDateTime = DateTime.SpecifyKind(formatToDateTime, DateTimeKind.Utc);
             return new DateTimeOffset(utcDateTime).ToUnixTimeMilliseconds();
         }
+
+        /// <summary>
+        /// 将 UTC 日期时间转换为 Unix 毫秒时间戳
+        /// </summary>
+        /// <param name="dateTime">必须为 <see cref="DateTimeKind.Utc"/> 类型的日期时间</param>
+        /// <returns>自 1970-01-01 00:00:00 UTC 起的毫秒数</returns>
+        public static long GetTimestampOfUtcDateTime(DateTime dateTime)
+        {
+            if (dateTime.Kind != DateTimeKind.Utc)
+            {
+                throw new ArgumentException(
+                    $"参数 '{nameof(dateTime.Kind)}' 必须是 DateTimeKind.Utc，实际值：{dateTime.Kind}",
+                    nameof(dateTime.Kind));
+            }
+
+            // 核心转换逻辑：
+            // 1. 将 UTC 的 DateTime 包装为 DateTimeOffset（自带时区信息）
+            // 2. 调用 ToUnixTimeMilliseconds() 得到毫秒级时间戳
+            return new DateTimeOffset(dateTime).ToUnixTimeMilliseconds();
+        }
+
+        /// <summary>
+        /// 判断指定字符串是否符合指定格式的日期时间字符串
+        /// </summary>
+        /// <param name="s">待校验的字符串</param>
+        /// <param name="formats">格式</param>
+        /// <returns>如果字符串符合返回 true，否则返回 false</returns>
+        public static bool IsValidDateTime(string s, params string[] formats)
+        {
+            try
+            {
+                FormatToDateTime(s, formats);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
