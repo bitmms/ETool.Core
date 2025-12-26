@@ -9,6 +9,17 @@ namespace ETool.Core.Util
     public static class DateTimeUtil
     {
         /// <summary>
+        /// 将日期按照指定格式转换成字符串
+        /// </summary>
+        /// <param name="date">要格式化的日期</param>
+        /// <param name="format">日期格式字符串</param>
+        /// <returns>格式化后的日期字符串</returns>
+        public static string ToString(DateTime date, string format)
+        {
+            return date.ToString(format);
+        }
+
+        /// <summary>
         /// 判断指定字符串是否符合指定格式的日期时间字符串
         /// </summary>
         /// <param name="s">待校验的字符串</param>
