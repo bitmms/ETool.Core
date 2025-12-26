@@ -113,10 +113,9 @@ namespace ETool.Core.Util
         /// </summary>
         /// <param name="timestamp">基于 UTC 的 Unix 时间戳</param>
         /// <param name="format">目标日期格式字符串</param>
-        /// <param name="dateTimeKind">返回 DateTime 的同时设置 DateTime 的 DateTimeKind 属性</param>
         /// <returns>格式化后的日期字符串</returns>
         /// <exception cref="ArgumentOutOfRangeException">timestamp 小于 -62_135_596_800_000L 或者大于 253_402_300_799_999L</exception>
-        public static string FormatToString(long timestamp, string format, DateTimeKind dateTimeKind = DateTimeKind.Utc)
+        public static string FormatToString(long timestamp, string format)
         {
             const long minUnixTimeMilliseconds = -62_135_596_800_000L;
             const long maxUnixTimeMilliseconds = 253_402_300_799_999L;
@@ -129,8 +128,8 @@ namespace ETool.Core.Util
                     message: $"毫秒级Unix时间戳必须介于 {minUnixTimeMilliseconds} 和 {maxUnixTimeMilliseconds} 之间（对应UTC日期 0001-01-01 00:00:00 至 9999-12-31 23:59:59），实际传入值：{timestamp}");
             }
 
-            var initDateTime = new DateTime(1970, 1, 1, 0, 0, 0, dateTimeKind);
-            var dateTime = DateTime.SpecifyKind(initDateTime.AddMilliseconds(timestamp), dateTimeKind);
+            var initDateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var dateTime = DateTime.SpecifyKind(initDateTime.AddMilliseconds(timestamp), DateTimeKind.Utc);
 
             return FormatToString(dateTime, format);
         }
@@ -142,6 +141,24 @@ namespace ETool.Core.Util
         public static long GetTimestampOfNow()
         {
             return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        }
+
+        /// <summary>
+        /// 将指定格式的日期字符串解析为 Unix 毫秒时间戳（假设输入时间为 UTC）
+        /// </summary>
+        /// <param name="s">要解析的日期字符串</param>
+        /// <param name="formats">允许的日期时间格式数组</param>
+        /// <returns>自 1970-01-01 00:00:00 UTC 起经过的毫秒数</returns>
+        /// <exception cref="ArgumentException"><c>s</c> 为 null 或空字符串</exception>
+        /// <exception cref="ArgumentException"><c>formats</c> 为 null 或空数组</exception>
+        /// <exception cref="ArgumentException"><c>formats</c> 所有元素均为 null 或空字符串</exception>
+        /// <exception cref="FormatException">字符串 <c>s</c> 无法按照 <c>formats</c> 中的任一格式解析为有效的日期</exception>
+        /// <remarks>本方法会将解析后的 DateTime 强制标记为 DateTimeKind.Utc</remarks>
+        public static long GetTimestampOfString(string s, params string[] formats)
+        {
+            var formatToDateTime = FormatToDateTime(s, formats);
+            var utcDateTime = DateTime.SpecifyKind(formatToDateTime, DateTimeKind.Utc);
+            return new DateTimeOffset(utcDateTime).ToUnixTimeMilliseconds();
         }
     }
 }
