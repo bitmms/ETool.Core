@@ -134,5 +134,14 @@ namespace ETool.Core.Util
 
             return FormatToString(dateTime, format);
         }
+
+        /// <summary>
+        /// 获取当前 UTC 时间的 Unix 毫秒时间戳
+        /// </summary>
+        /// <returns>自 1970-01-01 00:00:00 UTC 起的毫秒数</returns>
+        public static long GetTimestampOfNow()
+        {
+            return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        }
     }
 }
