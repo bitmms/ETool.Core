@@ -37,6 +37,30 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 将毫秒时间戳转换为指定格式的日期字符串（自 1970-01-01 UTC 起）
+        /// </summary>
+        /// <param name="millSeconds">毫秒时间戳</param>
+        /// <param name="format">目标日期格式字符串</param>
+        /// <returns>格式化后的日期字符串（使用 UTC 时间）</returns>
+        /// <exception cref="ArgumentOutOfRangeException">millSeconds 小于 -62_135_596_800_000L 或者大于 253_402_300_799_999L</exception>
+        public static string FormatToString(long millSeconds, string format)
+        {
+            const long minSupportedMilliseconds = -62_135_596_800_000L;
+            const long maxSupportedMilliseconds = 253_402_300_799_999L;
+
+            if (millSeconds < minSupportedMilliseconds || millSeconds > maxSupportedMilliseconds)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(millSeconds),
+                    millSeconds,
+                    $"毫秒时间戳 '{nameof(millSeconds)}' 必须介于 {minSupportedMilliseconds} 和 {maxSupportedMilliseconds} 之间（对应 UTC 日期 0001-01-01 至 9999-12-31），实际值：{millSeconds}");
+            }
+
+            var dateTime = DateTimeOffset.FromUnixTimeMilliseconds(millSeconds).DateTime;
+            return FormatToString(dateTime, format);
+        }
+
+        /// <summary>
         /// 将字符串按照 format 格式转换成日期类型
         /// </summary>
         /// <param name="s">要解析的日期字符串</param>
