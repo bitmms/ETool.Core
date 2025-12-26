@@ -14,7 +14,7 @@ namespace ETool.Core.Util
         /// <param name="date">要格式化的日期</param>
         /// <param name="format">日期格式字符串</param>
         /// <returns>格式化后的日期字符串</returns>
-        public static string ToString(DateTime date, string format)
+        public static string FormatToString(DateTime date, string format)
         {
             return date.ToString(format);
         }
