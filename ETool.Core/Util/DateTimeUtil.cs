@@ -91,6 +91,15 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 获取当前 UTC 时间的 Unix 毫秒时间戳
+        /// </summary>
+        /// <returns>自 1970-01-01 00:00:00 UTC 起的毫秒数</returns>
+        public static long GetTimestampOfNow()
+        {
+            return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        }
+
+        /// <summary>
         /// 判断指定字符串是否符合指定格式的日期时间字符串
         /// </summary>
         /// <param name="s">待校验的字符串</param>
