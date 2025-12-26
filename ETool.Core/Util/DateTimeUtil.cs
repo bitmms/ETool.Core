@@ -28,7 +28,7 @@ namespace ETool.Core.Util
         /// <exception cref="ArgumentException"><c>s == null || s == ""</c></exception>
         /// <exception cref="ArgumentException"><c>formats == null || formats.Length == 0</c></exception>
         /// <exception cref="FormatException">字符串 <c>s</c> 无法按 <c>formats</c> 提供的任一格式解析为有效日期</exception>
-        public static DateTime ToDateTime(string s, params string[] formats)
+        public static DateTime FormatToDateTime(string s, params string[] formats)
         {
             if (string.IsNullOrEmpty(s))
             {
@@ -76,7 +76,7 @@ namespace ETool.Core.Util
         /// <exception cref="FormatException">字符串 <c>s</c> 无法按 <c>formats</c> 提供的任一格式解析为有效日期</exception>
         public static int GetDayOfYear(string s, params string[] formats)
         {
-            return ToDateTime(s, formats).DayOfYear;
+            return FormatToDateTime(s, formats).DayOfYear;
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace ETool.Core.Util
         /// <exception cref="FormatException">字符串 <c>s</c> 无法按 <c>formats</c> 提供的任一格式解析为有效日期</exception>
         public static int GetDayOfWeek(string s, params string[] formats)
         {
-            var dayOfWeek = ToDateTime(s, formats).DayOfWeek;
+            var dayOfWeek = FormatToDateTime(s, formats).DayOfWeek;
             return dayOfWeek == DayOfWeek.Sunday ? 7 : (int)dayOfWeek;
         }
 
@@ -105,7 +105,7 @@ namespace ETool.Core.Util
         /// <exception cref="FormatException">字符串 <c>s</c> 无法按 <c>formats</c> 提供的任一格式解析为有效日期</exception>
         public static int GetDayOfMonth(string s, params string[] formats)
         {
-            return ToDateTime(s, formats).Day;
+            return FormatToDateTime(s, formats).Day;
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace ETool.Core.Util
         /// <exception cref="FormatException">字符串 <c>s</c> 无法按 <c>formats</c> 提供的任一格式解析为有效日期</exception>
         public static int GetMonthOfYear(string s, params string[] formats)
         {
-            return ToDateTime(s, formats).Month;
+            return FormatToDateTime(s, formats).Month;
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace ETool.Core.Util
         /// <exception cref="FormatException">字符串 <c>s</c> 无法按 <c>formats</c> 提供的任一格式解析为有效日期</exception>
         public static int GetYear(string s, params string[] formats)
         {
-            return ToDateTime(s, formats).Year;
+            return FormatToDateTime(s, formats).Year;
         }
 
         /// <summary>
