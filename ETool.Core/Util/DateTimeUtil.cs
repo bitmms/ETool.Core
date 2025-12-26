@@ -16,7 +16,7 @@ namespace ETool.Core.Util
         /// <returns>格式化后的日期字符串</returns>
         public static string FormatToString(DateTime date, string format)
         {
-            return date.ToString(format);
+            return date.ToString(format, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
