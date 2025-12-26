@@ -20,6 +20,23 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 将日期时间字符串从一种格式转换为另一种格式
+        /// </summary>
+        /// <param name="inputDatetime">输入的日期字符串</param>
+        /// <param name="inputFormat">用于解析输入字符串的日期格式</param>
+        /// <param name="outputFormat">用于格式化输出的日期格式</param>
+        /// <returns>格式化后的日期字符串</returns>
+        /// <exception cref="ArgumentException"><c>inputDatetime == null || inputDatetime == ""</c></exception>
+        /// <exception cref="ArgumentException"><c>inputFormat == null || inputFormat == ""</c></exception>
+        /// <exception cref="ArgumentException"><c>outputFormat == null || outputFormat == ""</c></exception>
+        /// <exception cref="FormatException">字符串 <c>inputDatetime</c> 无法按指定格式 <c>inputFormat</c> 解析为有效日期</exception>
+        public static string FormatToString(string inputDatetime, string inputFormat, string outputFormat)
+        {
+            var dateTime = FormatToDateTime(inputDatetime, inputFormat);
+            return FormatToString(dateTime, outputFormat);
+        }
+
+        /// <summary>
         /// 将字符串按照 format 格式转换成日期类型
         /// </summary>
         /// <param name="s">要解析的日期字符串</param>
