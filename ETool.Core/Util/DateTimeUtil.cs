@@ -100,6 +100,36 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 将指定格式的日期字符串解析为 Unix 毫秒时间戳（假设输入时间为 UTC）
+        /// </summary>
+        /// <param name="s">要解析的日期字符串</param>
+        /// <param name="formats">允许的日期时间格式数组</param>
+        /// <returns>自 1970-01-01 00:00:00 UTC 起经过的毫秒数</returns>
+        /// <exception cref="ArgumentException"><c>s == null || s == ""</c></exception>
+        /// <exception cref="ArgumentException"><c>formats == null || formats.Length == 0</c></exception>
+        /// <exception cref="FormatException">字符串 <c>s</c> 无法按 <c>formats</c> 提供的任一格式解析为有效日期</exception>
+        public static long GetTimestampOfString(string s, params string[] formats)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                throw new ArgumentException($"日期字符串 '{nameof(s)}' 不能为 null 或空，实际值：{(s == null ? "null" : "\"\"")}", nameof(s));
+            }
+
+            if (formats == null || formats.Length == 0)
+            {
+                throw new ArgumentException($"日期格式字符串 '{nameof(formats)}' 至少提供一个参数，实际值：{(formats == null ? "null" : "[]")}", nameof(formats));
+            }
+
+            if (!DateTime.TryParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var dateTime))
+            {
+                var formatList = StrUtil.Join(',', formats, false);
+                throw new FormatException($"无法将字符串 '{s}' 按照格式 '{formatList}' 解析为有效的 DateTime");
+            }
+
+            return new DateTimeOffset(dateTime).ToUnixTimeMilliseconds();
+        }
+
+        /// <summary>
         /// 判断指定字符串是否符合指定格式的日期时间字符串
         /// </summary>
         /// <param name="s">待校验的字符串</param>
