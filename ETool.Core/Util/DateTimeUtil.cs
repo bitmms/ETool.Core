@@ -109,6 +109,20 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 从指定格式的日期字符串中解析该日期是当前年中的第几个月
+        /// </summary>
+        /// <param name="s">要解析的日期字符串</param>
+        /// <param name="formats">用于解析的一个或多个日期格式字符串</param>
+        /// <returns>返回该日期在当前年中的第几个月（范围：1 到 12）</returns>
+        /// <exception cref="ArgumentException"><c>s == null || s == ""</c></exception>
+        /// <exception cref="ArgumentException"><c>formats == null || formats.Length == 0</c></exception>
+        /// <exception cref="FormatException">字符串 <c>s</c> 无法按 <c>formats</c> 提供的任一格式解析为有效日期</exception>
+        public static int GetMonthOfYear(string s, params string[] formats)
+        {
+            return ToDateTime(s, formats).Month;
+        }
+
+        /// <summary>
         /// 判断 DateTime 是否在指定的起止日期时间内（包含边界）
         /// </summary>
         /// <param name="dt">要判断的日期时间</param>
