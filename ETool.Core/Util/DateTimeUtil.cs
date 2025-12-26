@@ -10,21 +10,6 @@ namespace ETool.Core.Util
     public static class DateTimeUtil
     {
         /// <summary>
-        /// 将日期按照指定格式转换成字符串
-        /// </summary>
-        /// <param name="datetime">要格式化日期</param>
-        /// <param name="format">日期格式字符串</param>
-        /// <returns>格式化后的日期字符串</returns>
-        /// <remarks>
-        /// 1. 本方法根据 datetime 内部数值直接格式化，不涉及任何时区的处理<br/>
-        /// 2. 输出结果仅反映 datetime 的字面值，与其 DateTimeKind 属性无关
-        /// </remarks>
-        public static string FormatToString(DateTime datetime, string format)
-        {
-            return datetime.ToString(format, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
         /// 将字符串按照 format 格式转换成日期类型
         /// </summary>
         /// <param name="s">要解析的日期字符串</param>
@@ -34,7 +19,7 @@ namespace ETool.Core.Util
         /// <exception cref="ArgumentException"><c>formats</c> 为 null 或空数组</exception>
         /// <exception cref="ArgumentException"><c>formats</c> 所有元素均为 null 或空字符串</exception>
         /// <exception cref="FormatException">字符串 <c>s</c> 无法按照 <c>formats</c> 中的任一格式解析为有效的日期</exception>
-        /// <remarks>本方法不处理 DateTimeKind</remarks>
+        /// <remarks>本方法不处理 DateTimeKind 属性</remarks>
         public static DateTime FormatToDateTime(string s, params string[] formats)
         {
             if (string.IsNullOrEmpty(s))
@@ -69,6 +54,58 @@ namespace ETool.Core.Util
             }
 
             return dateTime;
+        }
+
+        /// <summary>
+        /// 将日期按照指定格式转换成字符串
+        /// </summary>
+        /// <param name="datetime">要格式化日期</param>
+        /// <param name="format">日期格式字符串</param>
+        /// <returns>格式化后的日期字符串</returns>
+        /// <remarks>
+        /// 1. 本方法不处理 DateTimeKind 属性<br/>
+        /// 2. 本方法根据 datetime 内部数值直接格式化，不涉及任何时区的处理<br/>
+        /// 3. 输出结果仅反映 datetime 的字面值，与其 DateTimeKind 属性无关
+        /// </remarks>
+        public static string FormatToString(DateTime datetime, string format)
+        {
+            return datetime.ToString(format, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// 将日期时间字符串从一种格式转换为另一种格式
+        /// </summary>
+        /// <param name="inputDateTime">输入的日期字符串</param>
+        /// <param name="inputFormat">解析输入字符串的日期格式</param>
+        /// <param name="outputFormat">格式化输出字符串的日期格式</param>
+        /// <exception cref="ArgumentException"><c>inputDateTime</c> 为 null 或空字符串</exception>
+        /// <exception cref="ArgumentException"><c>inputFormat</c> 为 null 或空字符串</exception>
+        /// <exception cref="ArgumentException"><c>outputFormat</c> 为 null 或空字符串</exception>
+        /// <exception cref="FormatException"><c>inputDateTime</c> 不是有效的日期格式字符串</exception>
+        /// <exception cref="FormatException"><c>outputFormat</c> 不是有效的日期格式字符串</exception>
+        /// <remarks>
+        /// 1. 本方法不处理 DateTimeKind 属性<br/>
+        /// 2. 解析和格式化过程均使用 <see cref="CultureInfo.InvariantCulture"/>，与系统区域设置无关
+        /// </remarks>
+        public static string FormatToString(string inputDateTime, string inputFormat, string outputFormat)
+        {
+            if (string.IsNullOrEmpty(outputFormat))
+            {
+                throw new ArgumentException($"输出日期格式不能为 null 或空，实际值：{(outputFormat == null ? "null" : "\"\"")}", nameof(outputFormat));
+            }
+
+            // 提前验证输出格式的有效性，避免解析成功后才发现输出格式无效
+            try
+            {
+                _ = DateTime.MinValue.ToString(outputFormat, CultureInfo.InvariantCulture);
+            }
+            catch (FormatException e)
+            {
+                throw new FormatException($"输出日期格式 '{outputFormat}' 不是有效的日期格式字符串", e);
+            }
+
+            var parsedDateTime = FormatToDateTime(inputDateTime, inputFormat);
+            return FormatToString(parsedDateTime, outputFormat);
         }
     }
 }
