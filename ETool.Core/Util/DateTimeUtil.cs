@@ -107,5 +107,32 @@ namespace ETool.Core.Util
             var parsedDateTime = FormatToDateTime(inputDateTime, inputFormat);
             return FormatToString(parsedDateTime, outputFormat);
         }
+
+        /// <summary>
+        /// 将 UTC 基准的毫秒级 Unix 时间戳转换为指定格式的日期字符串，支持自定义 DateTime 的时区类型
+        /// </summary>
+        /// <param name="timestamp">基于 UTC 的 Unix 时间戳</param>
+        /// <param name="format">目标日期格式字符串</param>
+        /// <param name="dateTimeKind">返回 DateTime 的同时设置 DateTime 的 DateTimeKind 属性</param>
+        /// <returns>格式化后的日期字符串</returns>
+        /// <exception cref="ArgumentOutOfRangeException">timestamp 小于 -62_135_596_800_000L 或者大于 253_402_300_799_999L</exception>
+        public static string FormatToString(long timestamp, string format, DateTimeKind dateTimeKind = DateTimeKind.Utc)
+        {
+            const long minUnixTimeMilliseconds = -62_135_596_800_000L;
+            const long maxUnixTimeMilliseconds = 253_402_300_799_999L;
+
+            if (timestamp < minUnixTimeMilliseconds || timestamp > maxUnixTimeMilliseconds)
+            {
+                throw new ArgumentOutOfRangeException(
+                    paramName: nameof(timestamp),
+                    actualValue: timestamp,
+                    message: $"毫秒级Unix时间戳必须介于 {minUnixTimeMilliseconds} 和 {maxUnixTimeMilliseconds} 之间（对应UTC日期 0001-01-01 00:00:00 至 9999-12-31 23:59:59），实际传入值：{timestamp}");
+            }
+
+            var initDateTime = new DateTime(1970, 1, 1, 0, 0, 0, dateTimeKind);
+            var dateTime = DateTime.SpecifyKind(initDateTime.AddMilliseconds(timestamp), dateTimeKind);
+
+            return FormatToString(dateTime, format);
+        }
     }
 }
